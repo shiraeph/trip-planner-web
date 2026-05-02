@@ -1,0 +1,192 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "back": "Back",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "to": "to",
+    "from": "from",
+    "min": "min",
+    "optional": "optional"
+  },
+  "app": {
+    "title": "Travel Planner",
+    "subtitle": "✈️ Dream, plan, and embark — your perfect itinerary awaits.",
+    "tagline": "Let AI help you unlock every destination's best experience.",
+    "planAnotherTrip": "Plan another trip"
+  },
+  "recentSearches": {
+    "title": "Recent searches",
+    "hint": "Click to pre-fill the form.",
+    "empty": "No recent searches yet.",
+    "noFilters": "(no filters)"
+  },
+  "history": {
+    "button": "Search history",
+    "title": "Search history",
+    "subtitle": "Your most recent searches",
+    "backToPlanner": "Back to planner",
+    "empty": "No history yet.",
+    "destination": "Destination",
+    "openItinerary": "Open itinerary",
+    "untitledTrip": "Untitled trip"
+  },
+  "auth": {
+    "signOut": "Sign out"
+  },
+  "planTrip": {
+    "title": "Plan your trip",
+    "description": "Tell us what you like — we'll generate a day-by-day itinerary.",
+    "generating": "Generating…",
+    "generateTrip": "Generate trip",
+    "creatingAdventure": "Creating your adventure itinerary…",
+    "hangTight": "Hang tight — almost there!",
+    "dayByDayPlan": "You'll get a day-by-day plan with morning / afternoon / evening."
+  },
+  "tripDetails": {
+    "title": "Trip details",
+    "subtitle": "Where & when",
+    "destination": "Destination",
+    "destinationHint": "City or area (e.g. Athens, Rome, Tokyo)",
+    "destinationPlaceholder": "Athens",
+    "travelStyle": "Travel style",
+    "startDate": "Start date",
+    "endDate": "End date",
+    "budget": "Budget",
+    "styles": {
+      "relaxed": "Relaxed",
+      "relaxedHint": "Less packed. More freedom.",
+      "balanced": "Balanced",
+      "balancedHint": "Balanced pace with flexibility.",
+      "intense": "Intense",
+      "intenseHint": "More highlights per day."
+    },
+    "budgetLevels": {
+      "low": "Low",
+      "lowHint": "Cheaper food, free spots, public transport.",
+      "medium": "Medium",
+      "mediumHint": "Good mix of paid + local experiences.",
+      "high": "High",
+      "highHint": "Better restaurants & premium experiences."
+    }
+  },
+  "groupDetails": {
+    "title": "Who is traveling?",
+    "subtitle": "Helps with pace & ideas",
+    "groupType": "Group type",
+    "people": "People",
+    "genderMix": "Gender mix",
+    "genderMixHint": "Optional — used only to tailor suggestions",
+    "ageRange": "Age range",
+    "ageRangeHint": "Approximate ages (helps choose pace)",
+    "compositions": {
+      "solo": "Solo",
+      "couple": "Couple",
+      "friends": "Friends",
+      "familyWithKids": "Family (with kids)",
+      "familyNoKids": "Family (no kids)",
+      "other": "Other"
+    },
+    "genderMixes": {
+      "mixed": "Mixed",
+      "femaleOnly": "Female only",
+      "maleOnly": "Male only",
+      "unknown": "Prefer not to say"
+    }
+  },
+  "preferences": {
+    "title": "Preferences",
+    "subtitle": "Pick a few",
+    "interests": "Interests",
+    "interestsHint": "Choose what you actually enjoy.",
+    "constraints": "Constraints (optional)",
+    "constraintsHint": "Helps avoid suggestions you don't want.",
+    "interestOptions": {
+      "food": "Food",
+      "history": "History",
+      "museums": "Museums",
+      "architecture": "Architecture",
+      "shopping": "Shopping",
+      "nature": "Nature",
+      "nightlife": "Nightlife",
+      "beaches": "Beaches"
+    },
+    "constraintOptions": {
+      "noLongWalks": "No long walks",
+      "kidFriendly": "Kid-friendly",
+      "vegetarianFriendly": "Vegetarian-friendly",
+      "earlyNights": "Early nights",
+      "avoidMuseums": "Avoid museums"
+    }
+  },
+  "optionalDetails": {
+    "title": "Optional details",
+    "subtitle": "More personalization + directions",
+    "hotelName": "Hotel name (optional)",
+    "hotelNameHint": "Used as your base for directions",
+    "hotelNamePlaceholder": "e.g. The Dilly",
+    "hotelArea": "Hotel area / address (optional)",
+    "hotelAreaHint": "Helps pick nearby attractions",
+    "hotelAreaPlaceholder": "e.g. City center / Plaka",
+    "transportPreference": "Transport preference",
+    "transportPreferenceHint": "We'll match directions to this",
+    "directions": "Directions",
+    "includeDirections": "Include \"how to get there\"",
+    "directionsHint": "Recommended — adds step-by-step guidance.",
+    "freeText": "Free text (optional)",
+    "freeTextHint": "Best way to personalize the plan",
+    "freeTextPlaceholder": "e.g. I prefer local food, not too many museums, and I love markets.",
+    "transportOptions": {
+      "walking": "Walking",
+      "publicTransport": "Public transport",
+      "taxi": "Taxi",
+      "car": "Car",
+      "mixed": "Mixed"
+    }
+  },
+  "validation": {
+    "destinationRequired": "Please enter a destination (e.g. Rome).",
+    "datesRequired": "Please choose start and end dates.",
+    "endDateAfterStart": "End date must be after start date.",
+    "peopleCountMin": "People count must be at least 1.",
+    "minAgeMaxAge": "Min age must be ≤ max age.",
+    "interestsRequired": "Pick at least one interest."
+  },
+  "tripResult": {
+    "tripId": "Trip ID:",
+    "status": "Status:",
+    "group": "Group:",
+    "regenerate": "Regenerate",
+    "regenerating": "Regenerating…",
+    "thinking": "Thinking… your trip will be ready in about a minute.",
+    "stillGenerating": "Still generating… this page will update automatically.",
+    "generationFailed": "Generation failed",
+    "day": "Day",
+    "directions": "Directions",
+    "rawResponse": "Raw response",
+    "tagline": "Your day-by-day itinerary.",
+    "keep": "Keep",
+    "saveItinerary": "Save itinerary",
+    "savingItinerary": "Saving…",
+    "dragBlocksHint": "Drag morning, afternoon, or evening blocks to swap time slots. Save when you are done."
+  },
+  "status": {
+    "submitting": "Submitting...",
+    "failed": "Failed",
+    "generating": "Generating",
+    "ready": "READY",
+    "failedStatus": "FAILED"
+  },
+  "language": {
+    "switch": "Switch Language",
+    "english": "English",
+    "spanish": "Español",
+    "french": "Français",
+    "german": "Deutsch"
+  }
+}

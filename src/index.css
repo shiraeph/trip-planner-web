@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+/* RTL Support */
+[dir="rtl"] {
+  direction: rtl;
+}
+
+[dir="ltr"] {
+  direction: ltr;
+}
+
+/* RTL-specific text alignment adjustments */
+[dir="rtl"] .text-left {
+  text-align: right;
+}
+
+[dir="rtl"] .text-right {
+  text-align: left;
+}
+
+/* Ensure proper text alignment in form inputs for RTL */
+[dir="rtl"] input,
+[dir="rtl"] textarea,
+[dir="rtl"] select {
+  text-align: right;
+}
+
+[dir="ltr"] input,
+[dir="ltr"] textarea,
+[dir="ltr"] select {
+  text-align: left;
+}
+
+/* RTL positioning for language switcher */
+[dir="rtl"] .lang-switcher-container {
+  right: auto;
+  left: 1rem;
+}
+
+[dir="ltr"] .lang-switcher-container {
+  right: 1rem;
+  left: auto;
+}

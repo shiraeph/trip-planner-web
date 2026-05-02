@@ -1,0 +1,192 @@
+{
+  "common": {
+    "loading": "Laden...",
+    "error": "Fehler",
+    "back": "Zurück",
+    "submit": "Senden",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "close": "Schließen",
+    "to": "bis",
+    "from": "von",
+    "min": "Min",
+    "optional": "optional"
+  },
+  "app": {
+    "title": "Reiseplaner",
+    "subtitle": "✈️ Träumen, planen und aufbrechen — Ihr perfekter Reiseplan wartet.",
+    "tagline": "Lassen Sie KI Ihnen helfen, die beste Erfahrung jedes Ziels zu entdecken.",
+    "planAnotherTrip": "Weitere Reise planen"
+  },
+  "recentSearches": {
+    "title": "Letzte Suchen",
+    "hint": "Klicken, um das Formular vorauszufüllen.",
+    "empty": "Noch keine letzten Suchen.",
+    "noFilters": "(keine Filter)"
+  },
+  "history": {
+    "button": "Suchverlauf",
+    "title": "Suchverlauf",
+    "subtitle": "Ihre neuesten Suchen",
+    "backToPlanner": "Zurück zum Planer",
+    "empty": "Noch keine Historie.",
+    "destination": "Ziel",
+    "openItinerary": "Route öffnen",
+    "untitledTrip": "Unbenannte Reise"
+  },
+  "auth": {
+    "signOut": "Abmelden"
+  },
+  "planTrip": {
+    "title": "Planen Sie Ihre Reise",
+    "description": "Sagen Sie uns, was Ihnen gefällt — wir erstellen einen Tag-für-Tag-Reiseplan.",
+    "generating": "Generierung…",
+    "generateTrip": "Reise generieren",
+    "creatingAdventure": "Erstellen Ihres Abenteuer-Reiseplans…",
+    "hangTight": "Bleiben Sie dran — fast fertig!",
+    "dayByDayPlan": "Sie erhalten einen Tag-für-Tag-Plan mit Morgen / Nachmittag / Abend."
+  },
+  "tripDetails": {
+    "title": "Reisedetails",
+    "subtitle": "Wo und wann",
+    "destination": "Ziel",
+    "destinationHint": "Stadt oder Gebiet (z.B. Athen, Rom, Tokio)",
+    "destinationPlaceholder": "Athen",
+    "travelStyle": "Reisestil",
+    "startDate": "Startdatum",
+    "endDate": "Enddatum",
+    "budget": "Budget",
+    "styles": {
+      "relaxed": "Entspannt",
+      "relaxedHint": "Weniger voll. Mehr Freiheit.",
+      "balanced": "Ausgewogen",
+      "balancedHint": "Ausgewogenes Tempo mit Flexibilität.",
+      "intense": "Intensiv",
+      "intenseHint": "Mehr Highlights pro Tag."
+    },
+    "budgetLevels": {
+      "low": "Niedrig",
+      "lowHint": "Günstigeres Essen, kostenlose Orte, öffentliche Verkehrsmittel.",
+      "medium": "Mittel",
+      "mediumHint": "Gute Mischung aus bezahlten und lokalen Erfahrungen.",
+      "high": "Hoch",
+      "highHint": "Bessere Restaurants und Premium-Erfahrungen."
+    }
+  },
+  "groupDetails": {
+    "title": "Wer reist?",
+    "subtitle": "Hilft bei Tempo und Ideen",
+    "groupType": "Gruppentyp",
+    "people": "Personen",
+    "genderMix": "Geschlechtermix",
+    "genderMixHint": "Optional — wird nur zur Anpassung von Vorschlägen verwendet",
+    "ageRange": "Altersspanne",
+    "ageRangeHint": "Ungefähre Alter (hilft bei der Wahl des Tempos)",
+    "compositions": {
+      "solo": "Allein",
+      "couple": "Paar",
+      "friends": "Freunde",
+      "familyWithKids": "Familie (mit Kindern)",
+      "familyNoKids": "Familie (ohne Kinder)",
+      "other": "Andere"
+    },
+    "genderMixes": {
+      "mixed": "Gemischt",
+      "femaleOnly": "Nur Frauen",
+      "maleOnly": "Nur Männer",
+      "unknown": "Möchte nicht sagen"
+    }
+  },
+  "preferences": {
+    "title": "Präferenzen",
+    "subtitle": "Wählen Sie einige",
+    "interests": "Interessen",
+    "interestsHint": "Wählen Sie, was Sie wirklich genießen.",
+    "constraints": "Einschränkungen (optional)",
+    "constraintsHint": "Hilft, unerwünschte Vorschläge zu vermeiden.",
+    "interestOptions": {
+      "food": "Essen",
+      "history": "Geschichte",
+      "museums": "Museen",
+      "architecture": "Architektur",
+      "shopping": "Einkaufen",
+      "nature": "Natur",
+      "nightlife": "Nachtleben",
+      "beaches": "Strände"
+    },
+    "constraintOptions": {
+      "noLongWalks": "Keine langen Spaziergänge",
+      "kidFriendly": "Kinderfreundlich",
+      "vegetarianFriendly": "Vegetarierfreundlich",
+      "earlyNights": "Frühe Nächte",
+      "avoidMuseums": "Museen vermeiden"
+    }
+  },
+  "optionalDetails": {
+    "title": "Optionale Details",
+    "subtitle": "Mehr Personalisierung + Wegbeschreibungen",
+    "hotelName": "Hotelname (optional)",
+    "hotelNameHint": "Wird als Basis für Wegbeschreibungen verwendet",
+    "hotelNamePlaceholder": "z.B. The Dilly",
+    "hotelArea": "Hotelbereich / Adresse (optional)",
+    "hotelAreaHint": "Hilft bei der Auswahl nahegelegener Attraktionen",
+    "hotelAreaPlaceholder": "z.B. Stadtzentrum / Plaka",
+    "transportPreference": "Transportpräferenz",
+    "transportPreferenceHint": "Wir passen die Wegbeschreibungen daran an",
+    "directions": "Wegbeschreibungen",
+    "includeDirections": "\"Wie man dorthin gelangt\" einschließen",
+    "directionsHint": "Empfohlen — fügt schrittweise Anleitung hinzu.",
+    "freeText": "Freier Text (optional)",
+    "freeTextHint": "Bester Weg, den Plan zu personalisieren",
+    "freeTextPlaceholder": "z.B. Ich bevorzuge lokales Essen, nicht zu viele Museen, und ich liebe Märkte.",
+    "transportOptions": {
+      "walking": "Zu Fuß",
+      "publicTransport": "Öffentliche Verkehrsmittel",
+      "taxi": "Taxi",
+      "car": "Auto",
+      "mixed": "Gemischt"
+    }
+  },
+  "validation": {
+    "destinationRequired": "Bitte geben Sie ein Ziel ein (z.B. Rom).",
+    "datesRequired": "Bitte wählen Sie Start- und Enddatum.",
+    "endDateAfterStart": "Das Enddatum muss nach dem Startdatum liegen.",
+    "peopleCountMin": "Die Personenzahl muss mindestens 1 sein.",
+    "minAgeMaxAge": "Mindestalter muss ≤ Höchstalter sein.",
+    "interestsRequired": "Wählen Sie mindestens ein Interesse."
+  },
+  "tripResult": {
+    "tripId": "Reise-ID:",
+    "status": "Status:",
+    "group": "Gruppe:",
+    "regenerate": "Neu generieren",
+    "regenerating": "Neu generieren…",
+    "thinking": "Denken… Ihre Reise wird in etwa einer Minute fertig sein.",
+    "stillGenerating": "Noch in Generierung… diese Seite wird automatisch aktualisiert.",
+    "generationFailed": "Generierung fehlgeschlagen",
+    "day": "Tag",
+    "directions": "Wegbeschreibungen",
+    "rawResponse": "Rohe Antwort",
+    "tagline": "Ihre Reise Tag für Tag.",
+    "keep": "Behalten",
+    "saveItinerary": "Reiseplan speichern",
+    "savingItinerary": "Speichern…",
+    "dragBlocksHint": "Ziehen Sie Morgen-, Nachmittags- oder Abendblöcke, um die Zeitfenster zu tauschen. Speichern Sie am Ende."
+  },
+  "status": {
+    "submitting": "Senden...",
+    "failed": "Fehlgeschlagen",
+    "generating": "Generierung",
+    "ready": "BEREIT",
+    "failedStatus": "FEHLGESCHLAGEN"
+  },
+  "language": {
+    "switch": "Sprache wechseln",
+    "english": "English",
+    "spanish": "Español",
+    "french": "Français",
+    "german": "Deutsch"
+  }
+}

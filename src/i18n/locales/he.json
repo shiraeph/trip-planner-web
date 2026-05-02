@@ -1,0 +1,192 @@
+{
+  "common": {
+    "loading": "טוען...",
+    "error": "שגיאה",
+    "back": "חזרה",
+    "submit": "שלח",
+    "cancel": "בטל",
+    "save": "שמור",
+    "delete": "מחק",
+    "edit": "ערוך",
+    "close": "סגור",
+    "to": "עד",
+    "from": "מ",
+    "min": "דק'",
+    "optional": "אופציונלי"
+  },
+  "app": {
+    "title": "מתכנן טיולים",
+    "subtitle": "✈️ חלום, תכנן והתחיל — המסלול המושלם שלך מחכה.",
+    "tagline": "תן ל-AI לעזור לך לגלות את החוויה הטובה ביותר בכל יעד.",
+    "planAnotherTrip": "תכנן טיול נוסף"
+  },
+  "recentSearches": {
+    "title": "חיפושים אחרונים",
+    "hint": "לחץ למילוי טופס.",
+    "empty": "אין עדיין חיפושים אחרונים.",
+    "noFilters": "(ללא סינון)"
+  },
+  "history": {
+    "button": "היסטוריית חיפושים",
+    "title": "היסטוריית חיפושים",
+    "subtitle": "החיפושים האחרונים שלך",
+    "backToPlanner": "חזרה לתכנון",
+    "empty": "אין עדיין היסטוריה.",
+    "destination": "יעד",
+    "openItinerary": "פתח מסלול",
+    "untitledTrip": "טיול ללא כותרת"
+  },
+  "auth": {
+    "signOut": "התנתקות"
+  },
+  "planTrip": {
+    "title": "תכנן את הטיול שלך",
+    "description": "ספר לנו מה אתה אוהב — ניצור עבורך מסלול יום-יום.",
+    "generating": "מייצר...",
+    "generateTrip": "צור טיול",
+    "creatingAdventure": "יוצר את מסלול ההרפתקה שלך...",
+    "hangTight": "חכה רגע — כמעט סיימנו!",
+    "dayByDayPlan": "תקבל תכנית יום-יום עם בוקר / צהריים / ערב."
+  },
+  "tripDetails": {
+    "title": "פרטי הטיול",
+    "subtitle": "איפה ומתי",
+    "destination": "יעד",
+    "destinationHint": "עיר או אזור (למשל אתונה, רומא, טוקיו)",
+    "destinationPlaceholder": "אתונה",
+    "travelStyle": "סגנון טיול",
+    "startDate": "תאריך התחלה",
+    "endDate": "תאריך סיום",
+    "budget": "תקציב",
+    "styles": {
+      "relaxed": "רגוע",
+      "relaxedHint": "פחות עמוס. יותר חופש.",
+      "balanced": "מאוזן",
+      "balancedHint": "קצב מאוזן עם גמישות.",
+      "intense": "אינטנסיבי",
+      "intenseHint": "יותר אטרקציות ביום."
+    },
+    "budgetLevels": {
+      "low": "נמוך",
+      "lowHint": "אוכל זול יותר, מקומות חינם, תחבורה ציבורית.",
+      "medium": "בינוני",
+      "mediumHint": "שילוב טוב של חוויות בתשלום ומקומיות.",
+      "high": "גבוה",
+      "highHint": "מסעדות טובות יותר וחוויות פרימיום."
+    }
+  },
+  "groupDetails": {
+    "title": "מי נוסע?",
+    "subtitle": "עוזר עם הקצב והרעיונות",
+    "groupType": "סוג קבוצה",
+    "people": "אנשים",
+    "genderMix": "מיקס מגדרי",
+    "genderMixHint": "אופציונלי — משמש רק להתאמת הצעות",
+    "ageRange": "טווח גילאים",
+    "ageRangeHint": "גילאים משוערים (עוזר לבחור את הקצב)",
+    "compositions": {
+      "solo": "לבד",
+      "couple": "זוג",
+      "friends": "חברים",
+      "familyWithKids": "משפחה (עם ילדים)",
+      "familyNoKids": "משפחה (בלי ילדים)",
+      "other": "אחר"
+    },
+    "genderMixes": {
+      "mixed": "מעורב",
+      "femaleOnly": "נשים בלבד",
+      "maleOnly": "גברים בלבד",
+      "unknown": "מעדיף לא לומר"
+    }
+  },
+  "preferences": {
+    "title": "העדפות",
+    "subtitle": "בחר כמה",
+    "interests": "תחומי עניין",
+    "interestsHint": "בחר מה שאתה באמת נהנה ממנו.",
+    "constraints": "אילוצים (אופציונלי)",
+    "constraintsHint": "עוזר להימנע מהצעות שאתה לא רוצה.",
+    "interestOptions": {
+      "food": "אוכל",
+      "history": "היסטוריה",
+      "museums": "מוזיאונים",
+      "architecture": "אדריכלות",
+      "shopping": "קניות",
+      "nature": "טבע",
+      "nightlife": "חיי לילה",
+      "beaches": "חופים"
+    },
+    "constraintOptions": {
+      "noLongWalks": "ללא הליכות ארוכות",
+      "kidFriendly": "ידידותי לילדים",
+      "vegetarianFriendly": "ידידותי לצמחונים",
+      "earlyNights": "לילות מוקדמים",
+      "avoidMuseums": "להימנע ממוזיאונים"
+    }
+  },
+  "optionalDetails": {
+    "title": "פרטים אופציונליים",
+    "subtitle": "יותר התאמה אישית + הוראות",
+    "hotelName": "שם המלון (אופציונלי)",
+    "hotelNameHint": "משמש כבסיס להוראות",
+    "hotelNamePlaceholder": "למשל The Dilly",
+    "hotelArea": "אזור / כתובת המלון (אופציונלי)",
+    "hotelAreaHint": "עוזר לבחור אטרקציות קרובות",
+    "hotelAreaPlaceholder": "למשל מרכז העיר / פלאקה",
+    "transportPreference": "העדפת תחבורה",
+    "transportPreferenceHint": "נתאים את ההוראות לזה",
+    "directions": "הוראות",
+    "includeDirections": "כלול \"איך להגיע\"",
+    "directionsHint": "מומלץ — מוסיף הנחיה שלב אחר שלב.",
+    "freeText": "טקסט חופשי (אופציונלי)",
+    "freeTextHint": "הדרך הטובה ביותר להתאים אישית את התכנית",
+    "freeTextPlaceholder": "למשל אני מעדיף אוכל מקומי, לא יותר מדי מוזיאונים, ואני אוהב שווקים.",
+    "transportOptions": {
+      "walking": "הליכה",
+      "publicTransport": "תחבורה ציבורית",
+      "taxi": "מונית",
+      "car": "רכב",
+      "mixed": "מעורב"
+    }
+  },
+  "validation": {
+    "destinationRequired": "אנא הזן יעד (למשל רומא).",
+    "datesRequired": "אנא בחר תאריכי התחלה וסיום.",
+    "endDateAfterStart": "תאריך הסיום חייב להיות אחרי תאריך ההתחלה.",
+    "peopleCountMin": "מספר האנשים חייב להיות לפחות 1.",
+    "minAgeMaxAge": "גיל מינימום חייב להיות ≤ גיל מקסימום.",
+    "interestsRequired": "בחר לפחות תחום עניין אחד."
+  },
+  "tripResult": {
+    "tripId": "מזהה טיול:",
+    "status": "סטטוס:",
+    "group": "קבוצה:",
+    "regenerate": "צור מחדש",
+    "regenerating": "יוצר מחדש...",
+    "thinking": "חושב... הטיול שלך יהיה מוכן בעוד כחצי דקה.",
+    "stillGenerating": "עדיין מייצר... הדף הזה יתעדכן אוטומטית.",
+    "generationFailed": "יצירה נכשלה",
+    "day": "יום",
+    "directions": "הוראות",
+    "rawResponse": "תגובה גולמית",
+    "tagline": "מסלול יומי מפורט.",
+    "keep": "שמור",
+    "saveItinerary": "שמור מסלול",
+    "savingItinerary": "שומר…",
+    "dragBlocksHint": "גרור את בלוקי בוקר, צהריים או ערב כדי להחליף חלונות זמן. לחץ שמור בסיום."
+  },
+  "status": {
+    "submitting": "שולח...",
+    "failed": "נכשל",
+    "generating": "מייצר",
+    "ready": "מוכן",
+    "failedStatus": "נכשל"
+  },
+  "language": {
+    "switch": "החלף שפה",
+    "english": "English",
+    "spanish": "Español",
+    "french": "Français",
+    "german": "Deutsch"
+  }
+}
