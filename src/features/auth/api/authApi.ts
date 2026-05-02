@@ -1,4 +1,4 @@
-import { API_BASE } from "../../../api";
+import { apiUrl } from "../../../api";
 import { getOrCreateUserId } from "../../../shared/lib/userId";
 
 export type AuthResponse = {
@@ -28,7 +28,7 @@ function buildErrorMessage(res: Response, body: any): string {
 }
 
 export async function signup(email: string, password: string): Promise<AuthResponse> {
-  const res = await fetch(`${API_BASE}/api/auth/signup`, {
+  const res = await fetch(apiUrl("/api/auth/signup"), {
     method: "POST",
     headers: { "Content-Type": "application/json", "X-User-Id": getOrCreateUserId() },
     body: JSON.stringify({ email, password }),
@@ -41,7 +41,7 @@ export async function signup(email: string, password: string): Promise<AuthRespo
 }
 
 export async function signin(email: string, password: string): Promise<AuthResponse> {
-  const res = await fetch(`${API_BASE}/api/auth/signin`, {
+  const res = await fetch(apiUrl("/api/auth/signin"), {
     method: "POST",
     headers: { "Content-Type": "application/json", "X-User-Id": getOrCreateUserId() },
     body: JSON.stringify({ email, password }),

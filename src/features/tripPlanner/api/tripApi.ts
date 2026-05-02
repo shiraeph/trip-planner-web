@@ -1,4 +1,4 @@
-import { API_BASE } from "../../../api";
+import { apiUrl } from "../../../api";
 import { getOrCreateUserId } from "../../../shared/lib/userId";
 import { getAuthToken } from "../../../shared/lib/auth";
 import type { Itinerary, PlanTripRequest, SearchHistoryResponse, TripPlanResponse } from "../types/tripTypes";
@@ -41,7 +41,7 @@ function buildErrorMessage(res: Response, body: any): string {
 
 // ---- API calls ----
 export async function planTrip(request: PlanTripRequest): Promise<TripPlanResponse> {
-    const res = await fetch(`${API_BASE}/api/trips/plan`, {
+    const res = await fetch(apiUrl("/api/trips/plan"), {
         method: "POST",
         headers: apiHeaders(true),
         body: JSON.stringify(request),
@@ -67,7 +67,7 @@ export async function regenerateTrip(
     id: string,
     options?: { lockedBlocks?: LockedBlock[]; lockedItems?: LockedItem[] }
 ): Promise<TripPlanResponse> {
-    const res = await fetch(`${API_BASE}/api/trips/${encodeURIComponent(id)}/regenerate`, {
+    const res = await fetch(apiUrl(`/api/trips/${encodeURIComponent(id)}/regenerate`), {
         method: "POST",
         headers: apiHeaders(true),
         body: JSON.stringify({
@@ -94,7 +94,7 @@ export async function updateTripItinerary(
     itinerary: Itinerary,
     language?: "en" | "he"
 ): Promise<TripPlanResponse> {
-    const url = new URL(`${API_BASE}/api/trips/${encodeURIComponent(id)}/itinerary`);
+    const url = new URL(apiUrl(`/api/trips/${encodeURIComponent(id)}/itinerary`));
     if (language) url.searchParams.set("language", language);
     const res = await fetch(url.toString(), {
         method: "PUT",
@@ -113,7 +113,7 @@ export async function updateTripItinerary(
 }
 
 export async function getTrip(id: string, language?: "en" | "he"): Promise<TripPlanResponse> {
-    const url = new URL(`${API_BASE}/api/trips/${encodeURIComponent(id)}`);
+    const url = new URL(apiUrl(`/api/trips/${encodeURIComponent(id)}`));
     if (language) url.searchParams.set("language", language);
     const res = await fetch(url.toString(), { method: "GET", headers: apiHeaders() });
 
@@ -131,7 +131,7 @@ export async function getTrip(id: string, language?: "en" | "he"): Promise<TripP
 }
 
 export async function getSearchHistory(): Promise<SearchHistoryResponse[]> {
-    const res = await fetch(`${API_BASE}/api/me/search-history`, {
+    const res = await fetch(apiUrl("/api/me/search-history"), {
         method: "GET",
         headers: apiHeaders(),
     });
@@ -147,7 +147,7 @@ export async function getSearchHistory(): Promise<SearchHistoryResponse[]> {
 }
 
 export async function getMyTrips(): Promise<TripPlanResponse[]> {
-    const res = await fetch(`${API_BASE}/api/me/trips`, {
+    const res = await fetch(apiUrl("/api/me/trips"), {
         method: "GET",
         headers: apiHeaders(),
     });
