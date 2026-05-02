@@ -1,1 +1,1 @@
-export const API_BASE = "https://trip-planner-api-0kft.onrender.com";
+const API_URL = import.meta.env.VITE_API_URL;
