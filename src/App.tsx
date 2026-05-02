@@ -4,10 +4,10 @@ import PlanTripPage from "./features/tripPlanner/pages/PlanTripPage";
 import TripResultPage from "./features/tripPlanner/pages/TripResultPage";
 import SearchHistoryPage from "./features/tripPlanner/pages/SearchHistoryPage";
 import AuthPage from "./features/auth/pages/AuthPage";
-import { getAuthToken } from "./shared/lib/auth";
+import { useAuth } from "./auth/AuthContext";
 
 export default function App() {
-  const token = getAuthToken();
+  const { token } = useAuth();
   return (
     <>
       <DirectionHandler />

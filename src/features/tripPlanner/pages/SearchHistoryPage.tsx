@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { getMyTrips } from "../api/tripApi";
 import type { TripPlanResponse } from "../types/tripTypes";
-import { clearAuthToken } from "../../../shared/lib/auth";
+import { useAuth } from "../../../auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import LanguageSwitcher from "../../../components/LanguageSwitcher";
 
@@ -13,6 +13,7 @@ export default function SearchHistoryPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   useEffect(() => {
     let cancelled = false;
@@ -48,7 +49,7 @@ export default function SearchHistoryPage() {
             <button
               type="button"
               onClick={() => {
-                clearAuthToken();
+                logout();
                 navigate("/auth", { replace: true });
               }}
               className="inline-flex items-center justify-center rounded-full bg-white/70 px-4 py-2 text-sm font-semibold text-slate-700 ring-1 ring-slate-200 hover:bg-white"

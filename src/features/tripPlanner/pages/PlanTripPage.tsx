@@ -4,13 +4,14 @@ import { useTranslation } from "react-i18next";
 import TripForm from "../components/TripForm";
 import LanguageSwitcher from "../../../components/LanguageSwitcher";
 import type { TripPlanResponse } from "../types/tripTypes";
-import { clearAuthToken } from "../../../shared/lib/auth";
+import { useAuth } from "../../../auth/AuthContext";
 
 export default function PlanTripPage() {
     const { t } = useTranslation();
     const [statusText, setStatusText] = useState<string>("");
     const [isGenerating, setIsGenerating] = useState<boolean>(false);
     const navigate = useNavigate();
+    const { logout } = useAuth();
 
     const handleResult = (trip: TripPlanResponse) => {
         if (trip.id) {
@@ -42,7 +43,7 @@ export default function PlanTripPage() {
                         <button
                             type="button"
                             onClick={() => {
-                                clearAuthToken();
+                                logout();
                                 navigate("/auth", { replace: true });
                             }}
                             className="inline-flex items-center justify-center rounded-full bg-white/70 px-4 py-2 text-sm font-semibold text-slate-700 ring-1 ring-slate-200 hover:bg-white"

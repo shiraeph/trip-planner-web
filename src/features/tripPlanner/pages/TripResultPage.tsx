@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { getTrip, pollTripUntilDone, regenerateTrip, updateTripItinerary } from "../api/tripApi";
 import type { Itinerary, TimeBlock, TripPlanResponse } from "../types/tripTypes";
 import LanguageSwitcher from "../../../components/LanguageSwitcher";
-import { clearAuthToken } from "../../../shared/lib/auth";
+import { useAuth } from "../../../auth/AuthContext";
 
 function cn(...xs: Array<string | false | undefined | null>) {
   return xs.filter(Boolean).join(" ");
@@ -233,6 +233,7 @@ export default function TripResultPage() {
   const params = useParams<{ id: string }>();
   const id = params.id;
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const lang = (i18n.language?.startsWith("he") ? "he" : "en") as "en" | "he";
 
@@ -442,7 +443,7 @@ export default function TripResultPage() {
             <button
               type="button"
               onClick={() => {
-                clearAuthToken();
+                logout();
                 navigate("/auth", { replace: true });
               }}
               className="inline-flex items-center justify-center rounded-full bg-white/70 px-4 py-2 text-sm font-semibold text-slate-700 ring-1 ring-slate-200 hover:bg-white"

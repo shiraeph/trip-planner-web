@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signin, signup } from "../api/authApi";
-import { setAuthToken } from "../../../shared/lib/auth";
+import { useAuth } from "../../../auth/AuthContext";
 
 function cn(...xs: Array<string | false | undefined | null>) {
   return xs.filter(Boolean).join(" ");
@@ -17,6 +17,7 @@ export default function AuthPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   async function onSubmit() {
     setLoading(true);
@@ -26,7 +27,12 @@ export default function AuthPage() {
         mode === "signup"
           ? await signup(email.trim(), password)
           : await signin(email.trim(), password);
-      setAuthToken(res.token);
+      const t = typeof res?.token === "string" ? res.token.trim() : "";
+      if (!t) {
+        setError("Server did not return a token. Check API response shape.");
+        return;
+      }
+      login(t);
       navigate("/", { replace: true });
     } catch (e: any) {
       setError(e?.message ?? "Auth failed");
