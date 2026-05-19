@@ -9,19 +9,13 @@ import {
 } from "../api/tripApi";
 import type { Itinerary, TimeBlock, TripPlanResponse } from "../types/tripTypes";
 import Page from "../../../app/layout/Page";
+import TripGeneratingGame from "../../../components/game/TripGeneratingGame";
 
 function cn(...xs: Array<string | false | undefined | null>) {
   return xs.filter(Boolean).join(" ");
 }
 
-function SpinnerRow({ text }: { text: string }) {
-  return (
-    <div className="mt-8 flex flex-col items-center justify-center gap-3 text-base text-slate-700">
-      <span className="inline-block h-7 w-7 animate-spin rounded-full border-4 border-brand-100 border-t-brand-500" />
-      <span className="text-center font-medium">{text}</span>
-    </div>
-  );
-}
+const POLL_TIMEOUT_MS = 600_000;
 
 function StatusPill({ status }: { status: string }) {
   const { t } = useTranslation();
@@ -298,6 +292,13 @@ export default function TripResultPage() {
     return `${trip.startDate} ${t("common.to")} ${trip.endDate}`;
   }, [trip, t]);
 
+  const showGeneratingGame = useMemo(() => {
+    if (trip?.tripStatus === "FAILED") return false;
+    if (regenLoading) return true;
+    if (trip?.tripStatus === "GENERATING") return true;
+    return loading && !trip;
+  }, [loading, trip, regenLoading]);
+
   const syncDraftFromTrip = useCallback((p: TripPlanResponse) => {
     if (p.tripStatus === "READY" && p.itinerary) {
       setDraftItinerary(structuredClone(p.itinerary));
@@ -322,7 +323,7 @@ export default function TripResultPage() {
         if (initial.tripStatus === "GENERATING") {
           const finalTrip = await pollTripUntilDone(id!, {
             intervalMs: 1200,
-            timeoutMs: 90000,
+            timeoutMs: POLL_TIMEOUT_MS,
             language: lang,
             onUpdate: (updatedTrip) => {
               if (!cancelled) {
@@ -433,7 +434,7 @@ export default function TripResultPage() {
 
         const finalTrip = await pollTripUntilDone(nextId, {
           intervalMs: 1200,
-          timeoutMs: 90000,
+          timeoutMs: POLL_TIMEOUT_MS,
           language: lang,
           onUpdate: (updatedTrip) => {
             if (updatedTrip) {
@@ -531,16 +532,23 @@ export default function TripResultPage() {
         </div>
       ) : null}
 
-      {loading ? <SpinnerRow text={t("tripResult.thinking")} /> : null}
+      {showGeneratingGame ? (
+        <TripGeneratingGame
+          title={
+            loading
+              ? t("tripResult.thinking")
+              : regenLoading
+                ? t("tripResult.regenerating")
+                : t("tripResult.stillGenerating")
+          }
+          subtitle={t("tripResult.stillGenerating")}
+        />
+      ) : null}
 
       {trip?.tripStatus === "FAILED" ? (
         <div className="mt-6 rounded-2xl border border-rose-200 bg-rose-50 p-4 text-center text-rose-800">
           {trip.errorMessage ?? t("tripResult.generationFailed")}
         </div>
-      ) : null}
-
-      {!loading && trip?.tripStatus === "GENERATING" ? (
-        <SpinnerRow text={t("tripResult.stillGenerating")} />
       ) : null}
 
       {trip?.tripStatus === "READY" && draftItinerary ? (

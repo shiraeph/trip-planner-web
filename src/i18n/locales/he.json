@@ -82,6 +82,8 @@
     "travelStyle": "סגנון טיול",
     "startDate": "תאריך התחלה",
     "endDate": "תאריך סיום",
+    "tripLength": "{{count}} ימים",
+    "longTripHint": "טיולים מעל 9 ימים נבנים בחלקים — היצירה עשויה לקחת כמה דקות.",
     "budget": "תקציב",
     "styles": {
       "relaxed": "רגוע",
@@ -204,6 +206,15 @@
     "MORNING": "בוקר",
     "AFTERNOON": "צהריים",
     "EVENING": "ערב"
+  },
+  "waitingGame": {
+    "playWhileWaiting": "שחקו בזמן שאנחנו בונים את המסלול",
+    "controlsHint": "הקשה או רווח כדי לעוף · התחמקו מעננים וציפורים",
+    "tapToStart": "הקשה או רווח כדי להמריא",
+    "tapToRetry": "הקשה לניסיון נוסף",
+    "gameOver": "נחיתה קשה!",
+    "score": "ניקוד",
+    "ariaLabel": "משחק מטוס בזמן יצירת הטיול"
   },
   "status": {
     "submitting": "שולח…",

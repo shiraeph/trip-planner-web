@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import TripForm from "../components/TripForm";
+import TripGeneratingGame from "../../../components/game/TripGeneratingGame";
 import Page from "../../../app/layout/Page";
 import type { TripPlanResponse } from "../types/tripTypes";
 
@@ -39,14 +40,10 @@ export default function PlanTripPage() {
       <TripForm onResult={handleResult} onStatus={handleStatus} />
 
       {isGenerating ? (
-        <div className="mt-8 flex flex-col items-center justify-center gap-3 text-base text-slate-800">
-          <span className="inline-block h-7 w-7 animate-spin rounded-full border-4 border-brand-100 border-t-brand-500" />
-          <span className="text-center font-medium">
-            {t("planTrip.creatingAdventure")}
-            <br />
-            <span className="text-brand-500">{t("planTrip.hangTight")}</span>
-          </span>
-        </div>
+        <TripGeneratingGame
+          title={t("planTrip.creatingAdventure")}
+          subtitle={t("planTrip.hangTight")}
+        />
       ) : statusText ? (
         <div className="mt-8 text-center text-sm font-semibold text-brand-600">
           {statusText}

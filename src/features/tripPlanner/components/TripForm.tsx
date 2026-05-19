@@ -185,6 +185,14 @@ export default function TripForm({ onResult, onStatus, prefill }: Props) {
     return t("tripDetails.budgetLevels.mediumHint");
   }, [budgetLevel, t]);
 
+  const tripDayCount = useMemo(() => {
+    if (!startDate || !endDate || startDate > endDate) return 0;
+    const start = new Date(`${startDate}T12:00:00`);
+    const end = new Date(`${endDate}T12:00:00`);
+    const diff = Math.round((end.getTime() - start.getTime()) / 86_400_000);
+    return diff + 1;
+  }, [startDate, endDate]);
+
   const selectDir = isHebrew ? "rtl" : "ltr";
 
   function validate(): string | null {
@@ -301,6 +309,15 @@ export default function TripForm({ onResult, onStatus, prefill }: Props) {
                 required
               />
             </Field>
+
+            {tripDayCount > 0 ? (
+              <div className="sm:col-span-2 rounded-xl bg-brand-50/80 px-3 py-2 text-sm text-brand-800 ring-1 ring-brand-100">
+                <p className="font-medium">{t("tripDetails.tripLength", { count: tripDayCount })}</p>
+                {tripDayCount > 9 ? (
+                  <p className="mt-0.5 text-xs text-brand-700">{t("tripDetails.longTripHint")}</p>
+                ) : null}
+              </div>
+            ) : null}
 
             <Field label={t("tripDetails.budget")} hint={budgetHint}>
               <select

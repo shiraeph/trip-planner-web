@@ -82,6 +82,8 @@
     "travelStyle": "Travel style",
     "startDate": "Start date",
     "endDate": "End date",
+    "tripLength": "{{count}} days",
+    "longTripHint": "Trips over 9 days are built in parts — generation can take a few minutes.",
     "budget": "Budget",
     "styles": {
       "relaxed": "Relaxed",
@@ -204,6 +206,15 @@
     "MORNING": "Morning",
     "AFTERNOON": "Afternoon",
     "EVENING": "Evening"
+  },
+  "waitingGame": {
+    "playWhileWaiting": "Play while we build your itinerary",
+    "controlsHint": "Tap or press Space to fly · avoid clouds and birds",
+    "tapToStart": "Tap or press Space to take off",
+    "tapToRetry": "Tap to try again",
+    "gameOver": "Bumpy landing!",
+    "score": "Score",
+    "ariaLabel": "Airplane mini-game while your trip generates"
   },
   "status": {
     "submitting": "Submitting…",
