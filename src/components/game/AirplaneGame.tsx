@@ -179,7 +179,8 @@ type Props = {
 };
 
 export default function AirplaneGame({ active = true, className = "" }: Props) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isRtl = i18n.language?.startsWith("he");
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const gameRef = useRef<GameSnapshot | null>(null);
@@ -298,22 +299,39 @@ export default function AirplaneGame({ active = true, className = "" }: Props) {
       for (const o of g.obstacles) drawObstacle(ctx, o, g.groundY);
       drawPlane(ctx, PLANE_X, g.planeY);
 
+      const scoreText = `${t("waitingGame.score")}: ${Math.floor(g.score / 6)}`;
       ctx.fillStyle = "#334155";
-      ctx.font = "600 14px Inter, system-ui, sans-serif";
-      ctx.fillText(`${t("waitingGame.score")}: ${Math.floor(g.score / 6)}`, 12, 22);
+      ctx.font = isRtl
+        ? "600 14px Heebo, Inter, system-ui, sans-serif"
+        : "600 14px Inter, Heebo, system-ui, sans-serif";
+      if (isRtl) {
+        ctx.textAlign = "right";
+        ctx.direction = "rtl";
+        ctx.fillText(scoreText, w - 12, 22);
+        ctx.textAlign = "start";
+        ctx.direction = "ltr";
+      } else {
+        ctx.fillText(scoreText, 12, 22);
+      }
 
       if (!g.started) {
         ctx.fillStyle = "rgba(30,41,59,0.75)";
-        ctx.font = "600 13px Inter, system-ui, sans-serif";
+        ctx.font = isRtl
+          ? "600 13px Heebo, Inter, system-ui, sans-serif"
+          : "600 13px Inter, Heebo, system-ui, sans-serif";
         ctx.textAlign = "center";
         ctx.fillText(t("waitingGame.tapToStart"), w / 2, h / 2 - 6);
         ctx.textAlign = "start";
       } else if (g.gameOver) {
         ctx.fillStyle = "rgba(30,41,59,0.8)";
-        ctx.font = "700 15px Inter, system-ui, sans-serif";
+        ctx.font = isRtl
+          ? "700 15px Heebo, Inter, system-ui, sans-serif"
+          : "700 15px Inter, Heebo, system-ui, sans-serif";
         ctx.textAlign = "center";
         ctx.fillText(t("waitingGame.gameOver"), w / 2, h / 2 - 8);
-        ctx.font = "500 12px Inter, system-ui, sans-serif";
+        ctx.font = isRtl
+          ? "500 12px Heebo, Inter, system-ui, sans-serif"
+          : "500 12px Inter, Heebo, system-ui, sans-serif";
         ctx.fillText(t("waitingGame.tapToRetry"), w / 2, h / 2 + 14);
         ctx.textAlign = "start";
       }
@@ -326,7 +344,7 @@ export default function AirplaneGame({ active = true, className = "" }: Props) {
       window.removeEventListener("keydown", onKey);
       cancelAnimationFrame(rafRef.current);
     };
-  }, [active, jump, t]);
+  }, [active, jump, t, isRtl]);
 
   const onPointer = (e: React.PointerEvent) => {
     e.preventDefault();
@@ -336,6 +354,7 @@ export default function AirplaneGame({ active = true, className = "" }: Props) {
   return (
     <div
       ref={containerRef}
+      dir={isRtl ? "rtl" : "ltr"}
       className={`w-full select-none touch-none ${className}`}
       style={{ touchAction: "none" }}
       onPointerDown={onPointer}
