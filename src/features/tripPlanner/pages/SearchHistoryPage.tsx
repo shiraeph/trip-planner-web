@@ -1,11 +1,30 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { getMyTrips } from "../api/tripApi";
 import type { TripPlanResponse } from "../types/tripTypes";
-import { useAuth } from "../../../auth/AuthContext";
-import { useNavigate } from "react-router-dom";
-import LanguageSwitcher from "../../../components/LanguageSwitcher";
+import Page from "../../../app/layout/Page";
+
+function StatusPill({ status }: { status: string }) {
+  const { t } = useTranslation();
+  const tone =
+    status === "READY"
+      ? "bg-emerald-50 text-emerald-800 ring-emerald-200"
+      : status === "GENERATING"
+        ? "bg-amber-50 text-amber-900 ring-amber-200"
+        : "bg-rose-50 text-rose-800 ring-rose-200";
+  const label =
+    status === "READY"
+      ? t("status.ready")
+      : status === "GENERATING"
+        ? t("status.generating")
+        : t("status.failed");
+  return (
+    <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ring-1 ${tone}`}>
+      {label}
+    </span>
+  );
+}
 
 export default function SearchHistoryPage() {
   const { t } = useTranslation();
@@ -13,7 +32,6 @@ export default function SearchHistoryPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
-  const { logout } = useAuth();
 
   useEffect(() => {
     let cancelled = false;
@@ -35,121 +53,78 @@ export default function SearchHistoryPage() {
   }, [t]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-indigo-200 via-white to-sky-200 flex flex-col items-center py-10 relative overflow-hidden">
-      <div className="absolute left-[-80px] top-[10%] w-52 h-52 bg-indigo-100 rounded-full z-0 blur-2xl opacity-70 animate-float" />
-      <div className="absolute right-[-60px] bottom-[5%] w-36 h-36 bg-sky-100 rounded-full z-0 blur-2xl opacity-70 animate-float-slow" />
-      <div className="absolute left-[42%] top-[78%] w-20 h-20 bg-yellow-100 rounded-full z-0 blur-lg opacity-60 animate-float-reverse" />
-
-      <div className="relative z-10 mx-auto max-w-3xl w-full bg-white bg-opacity-75 rounded-3xl shadow-xl px-6 py-12 sm:px-10 my-10">
-        <div className="absolute top-4 left-0 right-0 z-20 px-6 sm:px-10">
-          <div className="flex items-center justify-between">
-            <div className="lang-switcher-container">
-              <LanguageSwitcher />
-            </div>
-            <button
-              type="button"
-              onClick={() => {
-                logout();
-                navigate("/auth", { replace: true });
-              }}
-              className="inline-flex items-center justify-center rounded-full bg-white/70 px-4 py-2 text-sm font-semibold text-slate-700 ring-1 ring-slate-200 hover:bg-white"
-            >
-              {t("auth.signOut")}
-            </button>
-          </div>
-        </div>
-        <header className="mb-7 text-center">
-          <h1 className="text-4xl font-extrabold tracking-wide text-indigo-700 drop-shadow-glow animate-fade-in">
+    <Page maxWidth="max-w-3xl">
+      <header className="mb-6 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h1 className="font-display text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
             {t("history.title")}
           </h1>
-          <p className="mt-2 text-sm text-gray-500 animate-fade-in delay-75">
-            {t("history.subtitle")}
-          </p>
-          <div className="mt-4">
-            <Link
-              to="/"
-              className="inline-flex items-center justify-center rounded-full bg-indigo-50/80 px-4 py-2 text-sm font-semibold text-indigo-700 ring-1 ring-indigo-200 hover:bg-indigo-50"
-            >
-              {t("history.backToPlanner")}
-            </Link>
-          </div>
-        </header>
+          <p className="mt-1 text-sm text-slate-600">{t("history.subtitle")}</p>
+        </div>
+        <Link to="/" className="btn-secondary !rounded-full">
+          {t("history.backToPlanner")}
+        </Link>
+      </header>
 
-        {loading ? (
-          <div className="rounded-2xl border border-slate-200 bg-white/60 px-4 py-3 text-sm text-slate-500">
-            {t("common.loading")}
+      {loading ? (
+        <div className="card px-4 py-6 text-center text-sm text-slate-500">
+          {t("common.loading")}
+        </div>
+      ) : error ? (
+        <div
+          role="alert"
+          className="rounded-3xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800"
+        >
+          {error}
+        </div>
+      ) : items.length === 0 ? (
+        <div className="card grid place-items-center px-4 py-12 text-center">
+          <div className="grid h-14 w-14 place-items-center rounded-2xl bg-slate-100">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <path
+                d="M4 7h16M6 12h12M8 17h8"
+                stroke="currentColor"
+                className="text-slate-400"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+            </svg>
           </div>
-        ) : error ? (
-          <div className="rounded-2xl border border-rose-200 bg-rose-50/80 px-4 py-3 text-sm text-rose-700">
-            {error}
-          </div>
-        ) : items.length === 0 ? (
-          <div className="rounded-2xl border border-slate-200 bg-white/60 px-4 py-3 text-sm text-slate-500">
-            {t("history.empty")}
-          </div>
-        ) : (
-          <div className="space-y-2">
-            {items.map((item) => (
+          <p className="mt-4 text-sm text-slate-500">{t("history.empty")}</p>
+          <Link to="/" className="btn-primary mt-4">
+            {t("planTrip.generateTrip")}
+          </Link>
+        </div>
+      ) : (
+        <ul className="space-y-2.5">
+          {items.map((item) => (
+            <li key={item.id}>
               <button
-                key={item.id}
                 type="button"
                 onClick={() => navigate(`/trip/${item.id}`)}
-                className="w-full rounded-2xl border border-slate-200 bg-white p-4 text-left shadow-sm transition hover:border-indigo-300 hover:bg-indigo-50/50 hover:shadow"
+                className="card group w-full p-4 text-start transition hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-ring"
               >
-                <div className="text-sm font-semibold text-slate-900">
-                  {item.destination || t("history.untitledTrip")}
-                  {item.startDate && item.endDate ? ` · ${item.startDate} → ${item.endDate}` : null}
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div className="font-display text-base font-semibold text-slate-900">
+                    {item.destination || t("history.untitledTrip")}
+                  </div>
+                  <StatusPill status={item.tripStatus} />
                 </div>
-                <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-slate-500">
-                  <span
-                    className={
-                      item.tripStatus === "READY"
-                        ? "rounded-full bg-emerald-50 px-2 py-0.5 font-medium text-emerald-800 ring-1 ring-emerald-200"
-                        : item.tripStatus === "GENERATING"
-                          ? "rounded-full bg-amber-50 px-2 py-0.5 font-medium text-amber-900 ring-1 ring-amber-200"
-                          : "rounded-full bg-rose-50 px-2 py-0.5 font-medium text-rose-800 ring-1 ring-rose-200"
-                    }
-                  >
-                    {item.tripStatus}
+                <div className="mt-1.5 flex flex-wrap items-center gap-2 text-xs text-slate-500">
+                  {item.startDate && item.endDate ? (
+                    <span>
+                      {item.startDate} → {item.endDate}
+                    </span>
+                  ) : null}
+                  <span className="ms-auto font-medium text-brand-700 group-hover:underline">
+                    {t("history.openItinerary")} →
                   </span>
-                  <span>{t("history.openItinerary")}</span>
                 </div>
               </button>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <style>
-        {`
-        @keyframes float {
-            0% { transform: translateY(0);}
-            50% { transform: translateY(-24px);}
-            100% { transform: translateY(0);}
-        }
-        @keyframes float-slow {
-            0% { transform: translateY(0);}
-            50% { transform: translateY(20px);}
-            100% { transform: translateY(0);}
-        }
-        @keyframes float-reverse {
-            0% { transform: translateY(0);}
-            50% { transform: translateY(-12px);}
-            100% { transform: translateY(0);}
-        }
-        .animate-float { animation: float 5s ease-in-out infinite; }
-        .animate-float-slow { animation: float-slow 8s ease-in-out infinite; }
-        .animate-float-reverse { animation: float-reverse 6s ease-in-out infinite; }
-        .drop-shadow-glow { filter: drop-shadow(0px 0px 12px #a5b4fc); }
-        .animate-fade-in {
-            animation: fadeIn 1s cubic-bezier(0.23, 1, 0.32, 1);
-            opacity: 1;
-        }
-        .animate-fade-in.delay-75 { animation-delay: 0.15s; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(24px);} to { opacity: 1; transform: none;} }
-        `}
-      </style>
-    </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </Page>
   );
 }
-

@@ -1,7 +1,7 @@
 {
   "common": {
-    "loading": "Loading...",
-    "error": "Error",
+    "loading": "Loading…",
+    "error": "Something went wrong",
     "back": "Back",
     "submit": "Submit",
     "cancel": "Cancel",
@@ -16,13 +16,17 @@
   },
   "app": {
     "title": "Travel Planner",
-    "subtitle": "✈️ Dream, plan, and embark — your perfect itinerary awaits.",
-    "tagline": "Let AI help you unlock every destination's best experience.",
+    "subtitle": "Plan a perfect trip, day by day.",
+    "tagline": "AI helps you uncover the best experiences in any destination.",
     "planAnotherTrip": "Plan another trip"
+  },
+  "nav": {
+    "plan": "Plan",
+    "history": "History"
   },
   "recentSearches": {
     "title": "Recent searches",
-    "hint": "Click to pre-fill the form.",
+    "hint": "Tap to pre-fill the form.",
     "empty": "No recent searches yet.",
     "noFilters": "(no filters)"
   },
@@ -37,11 +41,32 @@
     "untitledTrip": "Untitled trip"
   },
   "auth": {
-    "signOut": "Sign out"
+    "brand": "Travel Planner",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "signOut": "Sign out",
+    "email": "Email",
+    "emailPlaceholder": "you@example.com",
+    "password": "Password",
+    "passwordPlaceholder": "••••••••",
+    "signInTitle": "Welcome back",
+    "signUpTitle": "Create your account",
+    "signInSubtitle": "Sign in to plan your next trip.",
+    "signUpSubtitle": "Save your trips and pick up where you left off.",
+    "submitSignIn": "Sign in",
+    "submitSignUp": "Create account",
+    "loading": "Please wait…",
+    "errorNoToken": "Server did not return a token. Please try again.",
+    "errorGeneric": "Authentication failed.",
+    "switchToSignUp": "New here?",
+    "switchToSignIn": "Already have an account?",
+    "createOne": "Create one",
+    "signInLink": "Sign in"
   },
   "planTrip": {
     "title": "Plan your trip",
     "description": "Tell us what you like — we'll generate a day-by-day itinerary.",
+    "aiBadge": "AI Trip Planner",
     "generating": "Generating…",
     "generateTrip": "Generate trip",
     "creatingAdventure": "Creating your adventure itinerary…",
@@ -158,9 +183,9 @@
     "interestsRequired": "Pick at least one interest."
   },
   "tripResult": {
-    "tripId": "Trip ID:",
-    "status": "Status:",
-    "group": "Group:",
+    "tripId": "Trip ID",
+    "status": "Status",
+    "group": "Group",
     "regenerate": "Regenerate",
     "regenerating": "Regenerating…",
     "thinking": "Thinking… your trip will be ready in about a minute.",
@@ -175,18 +200,21 @@
     "savingItinerary": "Saving…",
     "dragBlocksHint": "Drag morning, afternoon, or evening blocks to swap time slots. Save when you are done."
   },
+  "timeBlocks": {
+    "MORNING": "Morning",
+    "AFTERNOON": "Afternoon",
+    "EVENING": "Evening"
+  },
   "status": {
-    "submitting": "Submitting...",
+    "submitting": "Submitting…",
     "failed": "Failed",
     "generating": "Generating",
-    "ready": "READY",
-    "failedStatus": "FAILED"
+    "ready": "Ready",
+    "failedStatus": "Failed"
   },
   "language": {
-    "switch": "Switch Language",
+    "switch": "Switch language",
     "english": "English",
-    "spanish": "Español",
-    "french": "Français",
-    "german": "Deutsch"
+    "hebrew": "Hebrew"
   }
 }

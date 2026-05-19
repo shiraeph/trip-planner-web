@@ -2,52 +2,133 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body {
-  height: 100%;
+@layer base {
+  :root {
+    --brand-600: 79 70 229; /* indigo-600 */
+    --brand-700: 67 56 202;
+    --accent-500: 14 165 233; /* sky-500 */
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    margin: 0;
+    font-family: theme("fontFamily.sans");
+    color: theme("colors.slate.900");
+    background-color: theme("colors.slate.50");
+  }
+
+  html[lang="he"] body,
+  html[dir="rtl"] body {
+    font-family: "Heebo", "Inter", system-ui, sans-serif;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: theme("fontFamily.display");
+    letter-spacing: -0.02em;
+  }
+
+  /* Better focus rings everywhere */
+  :focus-visible {
+    outline: 2px solid theme("colors.brand.500");
+    outline-offset: 2px;
+  }
 }
 
-body {
-  margin: 0;
+@layer components {
+  /* Subtle "aurora" background used by Page */
+  .bg-aurora {
+    background-color: #f8fafc;
+    background-image:
+      radial-gradient(at 8% 0%, rgba(99, 102, 241, 0.18) 0px, transparent 50%),
+      radial-gradient(at 92% 12%, rgba(14, 165, 233, 0.14) 0px, transparent 50%),
+      radial-gradient(at 50% 100%, rgba(244, 114, 182, 0.10) 0px, transparent 50%);
+  }
+
+  .card {
+    @apply rounded-3xl border border-slate-200/70 bg-white shadow-soft;
+  }
+
+  .glass-card {
+    @apply rounded-3xl border border-white/60 bg-white/80 backdrop-blur shadow-soft;
+  }
+
+  .input {
+    @apply w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm outline-none transition focus:border-brand-500 focus:ring-4 focus:ring-brand-100;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-60;
+  }
+
+  .btn-primary {
+    @apply btn text-white shadow-soft bg-gradient-to-r from-brand-600 to-sky-600 hover:from-brand-700 hover:to-sky-700 focus-visible:outline-brand-600;
+  }
+
+  .btn-secondary {
+    @apply btn bg-white text-slate-800 border border-slate-200 hover:bg-slate-50;
+  }
+
+  .btn-ghost {
+    @apply btn bg-transparent text-slate-700 hover:bg-slate-100;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full border px-3 py-1 text-sm transition;
+  }
+
+  .chip-default {
+    @apply chip border-slate-200 bg-white text-slate-800 hover:border-brand-300 hover:bg-brand-50/40;
+  }
+
+  .chip-active {
+    @apply chip border-transparent bg-gradient-to-r from-brand-600 to-sky-600 text-white shadow-soft;
+  }
 }
 
-/* RTL Support */
-[dir="rtl"] {
-  direction: rtl;
+/* Date inputs: keep ltr internals even in RTL pages (so YYYY-MM-DD reads naturally) */
+html[dir="rtl"] input[type="date"],
+html[dir="rtl"] input[type="number"],
+html[dir="rtl"] input[type="email"],
+html[dir="rtl"] input[type="password"] {
+  text-align: start;
 }
 
-[dir="ltr"] {
-  direction: ltr;
+html[dir="rtl"] input[type="date"]::-webkit-calendar-picker-indicator {
+  margin-inline-end: 0;
+  margin-inline-start: auto;
 }
 
-/* RTL-specific text alignment adjustments */
-[dir="rtl"] .text-left {
+/* RTL-safe select alignment */
+html[dir="rtl"] select {
   text-align: right;
+  text-align-last: right;
 }
 
-[dir="rtl"] .text-right {
-  text-align: left;
+/* Smooth route transitions */
+.animate-in {
+  animation: fadeInUp 0.45s cubic-bezier(0.23, 1, 0.32, 1) both;
 }
 
-/* Ensure proper text alignment in form inputs for RTL */
-[dir="rtl"] input,
-[dir="rtl"] textarea,
-[dir="rtl"] select {
-  text-align: right;
-}
-
-[dir="ltr"] input,
-[dir="ltr"] textarea,
-[dir="ltr"] select {
-  text-align: left;
-}
-
-/* RTL positioning for language switcher */
-[dir="rtl"] .lang-switcher-container {
-  right: auto;
-  left: 1rem;
-}
-
-[dir="ltr"] .lang-switcher-container {
-  right: 1rem;
-  left: auto;
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

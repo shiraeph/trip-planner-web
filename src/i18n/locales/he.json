@@ -1,28 +1,32 @@
 {
   "common": {
-    "loading": "טוען...",
-    "error": "שגיאה",
+    "loading": "טוען…",
+    "error": "משהו השתבש",
     "back": "חזרה",
     "submit": "שלח",
-    "cancel": "בטל",
-    "save": "שמור",
+    "cancel": "ביטול",
+    "save": "שמירה",
     "delete": "מחק",
     "edit": "ערוך",
     "close": "סגור",
     "to": "עד",
-    "from": "מ",
-    "min": "דק'",
+    "from": "מ-",
+    "min": "דק׳",
     "optional": "אופציונלי"
   },
   "app": {
-    "title": "מתכנן טיולים",
-    "subtitle": "✈️ חלום, תכנן והתחיל — המסלול המושלם שלך מחכה.",
-    "tagline": "תן ל-AI לעזור לך לגלות את החוויה הטובה ביותר בכל יעד.",
-    "planAnotherTrip": "תכנן טיול נוסף"
+    "title": "מתכנן הטיולים",
+    "subtitle": "תכננו טיול מושלם, יום אחר יום.",
+    "tagline": "AI שיעזור לכם לגלות את החוויות הטובות ביותר בכל יעד.",
+    "planAnotherTrip": "תכנון טיול נוסף"
+  },
+  "nav": {
+    "plan": "תכנון",
+    "history": "היסטוריה"
   },
   "recentSearches": {
     "title": "חיפושים אחרונים",
-    "hint": "לחץ למילוי טופס.",
+    "hint": "לחיצה תמלא את הטופס מראש.",
     "empty": "אין עדיין חיפושים אחרונים.",
     "noFilters": "(ללא סינון)"
   },
@@ -33,26 +37,47 @@
     "backToPlanner": "חזרה לתכנון",
     "empty": "אין עדיין היסטוריה.",
     "destination": "יעד",
-    "openItinerary": "פתח מסלול",
+    "openItinerary": "פתיחת מסלול",
     "untitledTrip": "טיול ללא כותרת"
   },
   "auth": {
-    "signOut": "התנתקות"
+    "brand": "מתכנן הטיולים",
+    "signIn": "התחברות",
+    "signUp": "הרשמה",
+    "signOut": "התנתקות",
+    "email": "אימייל",
+    "emailPlaceholder": "you@example.com",
+    "password": "סיסמה",
+    "passwordPlaceholder": "••••••••",
+    "signInTitle": "ברוך שובך",
+    "signUpTitle": "יצירת חשבון",
+    "signInSubtitle": "התחבר/י כדי לתכנן את הטיול הבא.",
+    "signUpSubtitle": "שמרו את הטיולים שלכם והמשיכו מאיפה שעצרתם.",
+    "submitSignIn": "התחברות",
+    "submitSignUp": "יצירת חשבון",
+    "loading": "רגע בבקשה…",
+    "errorNoToken": "השרת לא החזיר טוקן. נסו שוב.",
+    "errorGeneric": "ההזדהות נכשלה.",
+    "switchToSignUp": "חדשים כאן?",
+    "switchToSignIn": "כבר יש חשבון?",
+    "createOne": "ליצירת חשבון",
+    "signInLink": "התחברות"
   },
   "planTrip": {
-    "title": "תכנן את הטיול שלך",
-    "description": "ספר לנו מה אתה אוהב — ניצור עבורך מסלול יום-יום.",
-    "generating": "מייצר...",
-    "generateTrip": "צור טיול",
-    "creatingAdventure": "יוצר את מסלול ההרפתקה שלך...",
-    "hangTight": "חכה רגע — כמעט סיימנו!",
-    "dayByDayPlan": "תקבל תכנית יום-יום עם בוקר / צהריים / ערב."
+    "title": "תכנון הטיול",
+    "description": "ספרו לנו מה אתם אוהבים — ניצור עבורכם מסלול יום-יום.",
+    "aiBadge": "מתכנן AI",
+    "generating": "מייצר…",
+    "generateTrip": "יצירת טיול",
+    "creatingAdventure": "יוצרים את מסלול ההרפתקה שלכם…",
+    "hangTight": "רגע אחד — כמעט סיימנו!",
+    "dayByDayPlan": "תקבלו תכנית יום-יום עם בוקר / צהריים / ערב."
   },
   "tripDetails": {
     "title": "פרטי הטיול",
     "subtitle": "איפה ומתי",
     "destination": "יעד",
-    "destinationHint": "עיר או אזור (למשל אתונה, רומא, טוקיו)",
+    "destinationHint": "עיר או אזור (לדוגמה אתונה, רומא, טוקיו)",
     "destinationPlaceholder": "אתונה",
     "travelStyle": "סגנון טיול",
     "startDate": "תאריך התחלה",
@@ -60,7 +85,7 @@
     "budget": "תקציב",
     "styles": {
       "relaxed": "רגוע",
-      "relaxedHint": "פחות עמוס. יותר חופש.",
+      "relaxedHint": "פחות עומס. יותר חופש.",
       "balanced": "מאוזן",
       "balancedHint": "קצב מאוזן עם גמישות.",
       "intense": "אינטנסיבי",
@@ -68,19 +93,19 @@
     },
     "budgetLevels": {
       "low": "נמוך",
-      "lowHint": "אוכל זול יותר, מקומות חינם, תחבורה ציבורית.",
+      "lowHint": "אוכל זול יותר, מקומות בחינם, תחבורה ציבורית.",
       "medium": "בינוני",
-      "mediumHint": "שילוב טוב של חוויות בתשלום ומקומיות.",
+      "mediumHint": "תמהיל טוב של חוויות בתשלום ומקומיות.",
       "high": "גבוה",
       "highHint": "מסעדות טובות יותר וחוויות פרימיום."
     }
   },
   "groupDetails": {
     "title": "מי נוסע?",
-    "subtitle": "עוזר עם הקצב והרעיונות",
+    "subtitle": "עוזר לנו לבחור קצב ורעיונות",
     "groupType": "סוג קבוצה",
-    "people": "אנשים",
-    "genderMix": "מיקס מגדרי",
+    "people": "כמות נוסעים",
+    "genderMix": "תמהיל מגדרי",
     "genderMixHint": "אופציונלי — משמש רק להתאמת הצעות",
     "ageRange": "טווח גילאים",
     "ageRangeHint": "גילאים משוערים (עוזר לבחור את הקצב)",
@@ -101,11 +126,11 @@
   },
   "preferences": {
     "title": "העדפות",
-    "subtitle": "בחר כמה",
+    "subtitle": "בחרו כמה",
     "interests": "תחומי עניין",
-    "interestsHint": "בחר מה שאתה באמת נהנה ממנו.",
+    "interestsHint": "בחרו את מה שאתם באמת אוהבים.",
     "constraints": "אילוצים (אופציונלי)",
-    "constraintsHint": "עוזר להימנע מהצעות שאתה לא רוצה.",
+    "constraintsHint": "עוזר להימנע מהצעות שלא תרצו.",
     "interestOptions": {
       "food": "אוכל",
       "history": "היסטוריה",
@@ -126,21 +151,21 @@
   },
   "optionalDetails": {
     "title": "פרטים אופציונליים",
-    "subtitle": "יותר התאמה אישית + הוראות",
+    "subtitle": "התאמה אישית והוראות הגעה",
     "hotelName": "שם המלון (אופציונלי)",
-    "hotelNameHint": "משמש כבסיס להוראות",
-    "hotelNamePlaceholder": "למשל The Dilly",
+    "hotelNameHint": "ישמש כבסיס להוראות הגעה",
+    "hotelNamePlaceholder": "לדוגמה The Dilly",
     "hotelArea": "אזור / כתובת המלון (אופציונלי)",
     "hotelAreaHint": "עוזר לבחור אטרקציות קרובות",
-    "hotelAreaPlaceholder": "למשל מרכז העיר / פלאקה",
+    "hotelAreaPlaceholder": "לדוגמה מרכז העיר / פלאקה",
     "transportPreference": "העדפת תחבורה",
-    "transportPreferenceHint": "נתאים את ההוראות לזה",
-    "directions": "הוראות",
-    "includeDirections": "כלול \"איך להגיע\"",
+    "transportPreferenceHint": "נתאים את הוראות ההגעה בהתאם",
+    "directions": "הוראות הגעה",
+    "includeDirections": "כללו \"איך להגיע\"",
     "directionsHint": "מומלץ — מוסיף הנחיה שלב אחר שלב.",
     "freeText": "טקסט חופשי (אופציונלי)",
     "freeTextHint": "הדרך הטובה ביותר להתאים אישית את התכנית",
-    "freeTextPlaceholder": "למשל אני מעדיף אוכל מקומי, לא יותר מדי מוזיאונים, ואני אוהב שווקים.",
+    "freeTextPlaceholder": "לדוגמה: אני מעדיף אוכל מקומי, לא יותר מדי מוזיאונים, ואני אוהב שווקים.",
     "transportOptions": {
       "walking": "הליכה",
       "publicTransport": "תחבורה ציבורית",
@@ -150,43 +175,46 @@
     }
   },
   "validation": {
-    "destinationRequired": "אנא הזן יעד (למשל רומא).",
-    "datesRequired": "אנא בחר תאריכי התחלה וסיום.",
+    "destinationRequired": "אנא הזינו יעד (לדוגמה רומא).",
+    "datesRequired": "אנא בחרו תאריכי התחלה וסיום.",
     "endDateAfterStart": "תאריך הסיום חייב להיות אחרי תאריך ההתחלה.",
-    "peopleCountMin": "מספר האנשים חייב להיות לפחות 1.",
+    "peopleCountMin": "מספר הנוסעים חייב להיות לפחות 1.",
     "minAgeMaxAge": "גיל מינימום חייב להיות ≤ גיל מקסימום.",
-    "interestsRequired": "בחר לפחות תחום עניין אחד."
+    "interestsRequired": "בחרו לפחות תחום עניין אחד."
   },
   "tripResult": {
-    "tripId": "מזהה טיול:",
-    "status": "סטטוס:",
-    "group": "קבוצה:",
-    "regenerate": "צור מחדש",
-    "regenerating": "יוצר מחדש...",
-    "thinking": "חושב... הטיול שלך יהיה מוכן בעוד כחצי דקה.",
-    "stillGenerating": "עדיין מייצר... הדף הזה יתעדכן אוטומטית.",
-    "generationFailed": "יצירה נכשלה",
+    "tripId": "מזהה טיול",
+    "status": "סטטוס",
+    "group": "קבוצה",
+    "regenerate": "יצירה מחדש",
+    "regenerating": "יוצר מחדש…",
+    "thinking": "חושב… הטיול שלך יהיה מוכן בעוד כדקה.",
+    "stillGenerating": "עדיין מייצר… הדף יתעדכן אוטומטית.",
+    "generationFailed": "היצירה נכשלה",
     "day": "יום",
-    "directions": "הוראות",
+    "directions": "הוראות הגעה",
     "rawResponse": "תגובה גולמית",
     "tagline": "מסלול יומי מפורט.",
-    "keep": "שמור",
-    "saveItinerary": "שמור מסלול",
+    "keep": "שמירה",
+    "saveItinerary": "שמירת המסלול",
     "savingItinerary": "שומר…",
-    "dragBlocksHint": "גרור את בלוקי בוקר, צהריים או ערב כדי להחליף חלונות זמן. לחץ שמור בסיום."
+    "dragBlocksHint": "גררו את בלוקי הבוקר, הצהריים או הערב כדי להחליף ביניהם. שמרו בסיום."
+  },
+  "timeBlocks": {
+    "MORNING": "בוקר",
+    "AFTERNOON": "צהריים",
+    "EVENING": "ערב"
   },
   "status": {
-    "submitting": "שולח...",
+    "submitting": "שולח…",
     "failed": "נכשל",
     "generating": "מייצר",
     "ready": "מוכן",
     "failedStatus": "נכשל"
   },
   "language": {
-    "switch": "החלף שפה",
-    "english": "English",
-    "spanish": "Español",
-    "french": "Français",
-    "german": "Deutsch"
+    "switch": "החלפת שפה",
+    "english": "אנגלית",
+    "hebrew": "עברית"
   }
 }
