@@ -33,7 +33,7 @@ export default function Header({ minimal = false }: Props) {
   const navigate = useNavigate();
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-    `rounded-full px-3 py-1.5 text-sm font-medium transition ${
+    `rounded-full px-2.5 py-1.5 text-xs font-medium transition sm:px-3 sm:text-sm ${
       isActive
         ? "bg-brand-50 text-brand-700"
         : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
@@ -41,18 +41,18 @@ export default function Header({ minimal = false }: Props) {
 
   return (
     <header className="sticky top-0 z-20 border-b border-slate-200/70 bg-white/70 backdrop-blur-md">
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
+      <div className="mx-auto flex min-h-14 max-w-6xl flex-wrap items-center justify-between gap-2 px-4 py-2 sm:flex-nowrap sm:gap-3 sm:px-6 sm:py-0">
         <button
           type="button"
           onClick={() => navigate(token ? "/" : "/auth")}
-          className="rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-brand-300"
+          className="shrink-0 rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-brand-300"
           aria-label="Home"
         >
           <BrandMark />
         </button>
 
         {!minimal && token ? (
-          <nav className="hidden items-center gap-1 sm:flex">
+          <nav className="flex items-center gap-0.5 sm:gap-1" aria-label={t("nav.main")}>
             <NavLink to="/" className={navLinkClass} end>
               {t("nav.plan")}
             </NavLink>
@@ -62,7 +62,7 @@ export default function Header({ minimal = false }: Props) {
           </nav>
         ) : null}
 
-        <div className="flex items-center gap-2">
+        <div className="ms-auto flex shrink-0 items-center gap-2">
           <LanguageSwitcher />
           {!minimal && token ? (
             <button

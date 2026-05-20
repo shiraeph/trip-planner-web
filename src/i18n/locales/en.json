@@ -22,7 +22,8 @@
   },
   "nav": {
     "plan": "Plan",
-    "history": "History"
+    "history": "History",
+    "main": "Main navigation"
   },
   "recentSearches": {
     "title": "Recent searches",
