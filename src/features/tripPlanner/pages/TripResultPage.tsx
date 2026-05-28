@@ -10,6 +10,9 @@ import {
 import type { Itinerary, TimeBlock, TripPlanResponse } from "../types/tripTypes";
 import Page from "../../../app/layout/Page";
 import TripGeneratingGame from "../../../components/game/TripGeneratingGame";
+import { formatTripDate } from "../lib/dateFormat";
+import { parseItineraryNotes } from "../lib/itineraryNotes";
+import { buildGoogleMapsSearchUrl } from "../lib/googleMapsUrl";
 
 function cn(...xs: Array<string | false | undefined | null>) {
   return xs.filter(Boolean).join(" ");
@@ -86,6 +89,7 @@ function DirectionsBox({
 
 function ItemCard({
   item,
+  tripDestination,
   keepChecked,
   onToggleKeep,
 }: {
@@ -101,10 +105,20 @@ function ItemCard({
       directions?: string | null;
     } | null;
   };
+  tripDestination?: string | null;
   keepChecked?: boolean;
   onToggleKeep?: () => void;
 }) {
   const { t } = useTranslation();
+  const parsed = useMemo(() => parseItineraryNotes(item.notes), [item.notes]);
+  const mapsUrl = useMemo(() => {
+    if (item.type === "TRANSIT" || !item.name?.trim()) return null;
+    return buildGoogleMapsSearchUrl(
+      item.name,
+      item.location?.name,
+      tripDestination
+    );
+  }, [item.type, item.name, item.location?.name, tripDestination]);
   return (
     <div className="rounded-xl border border-slate-100 bg-slate-50 p-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
@@ -131,8 +145,64 @@ function ItemCard({
         ) : null}
       </div>
 
-      {item.notes ? (
-        <div className="mt-1.5 text-sm text-slate-600">{item.notes}</div>
+      {parsed.description ? (
+        <p className="mt-1.5 block whitespace-pre-line text-sm leading-relaxed text-slate-600">
+          {parsed.description}
+        </p>
+      ) : null}
+
+      {parsed.openingHours ? (
+        <p
+          className={`block text-xs leading-relaxed text-slate-600 ${
+            parsed.description ? "mt-4" : "mt-1.5"
+          }`}
+        >
+          <span className="font-semibold text-slate-700">
+            {t("tripResult.openingHours")}:
+          </span>{" "}
+          <span className="text-slate-500">{parsed.openingHours}</span>
+        </p>
+      ) : null}
+
+      {parsed.avgPricePerDish ? (
+        <p
+          className={`block text-xs leading-relaxed text-slate-600 ${
+            parsed.openingHours || parsed.description ? "mt-4" : "mt-1.5"
+          }`}
+        >
+          <span className="font-semibold text-slate-700">
+            {t("tripResult.avgPricePerDish")}:
+          </span>{" "}
+          <span className="text-slate-500">{parsed.avgPricePerDish}</span>
+        </p>
+      ) : parsed.price ? (
+        <p
+          className={`block text-xs leading-relaxed text-slate-600 ${
+            parsed.openingHours || parsed.description ? "mt-4" : "mt-1.5"
+          }`}
+        >
+          <span className="font-semibold text-slate-700">{t("tripResult.price")}:</span>{" "}
+          <span className="text-slate-500">{parsed.price}</span>
+        </p>
+      ) : null}
+
+      {mapsUrl ? (
+        <a
+          href={mapsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-brand-200 bg-white px-3 py-1.5 text-xs font-semibold text-brand-700 shadow-sm transition hover:border-brand-300 hover:bg-brand-50"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>
+            <path
+              d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7Z"
+              stroke="currentColor"
+              strokeWidth="2"
+            />
+            <circle cx="12" cy="9" r="2.5" stroke="currentColor" strokeWidth="2" />
+          </svg>
+          {t("tripResult.openInGoogleMaps")}
+        </a>
       ) : null}
 
       {item.transit ? (
@@ -248,6 +318,7 @@ function DayTabs({
                     <ItemCard
                       key={j}
                       item={item}
+                      tripDestination={trip.destination}
                       keepChecked={!!locked[lockKey]}
                       onToggleKeep={() => onToggleItem(active, tb, j)}
                     />
@@ -269,6 +340,7 @@ export default function TripResultPage() {
   const navigate = useNavigate();
 
   const lang = (i18n.language?.startsWith("he") ? "he" : "en") as "en" | "he";
+  const locale = i18n.language?.startsWith("he") ? "he-IL" : "en-US";
 
   const [trip, setTrip] = useState<TripPlanResponse | null>(null);
   const [loading, setLoading] = useState(true);
@@ -289,8 +361,8 @@ export default function TripResultPage() {
 
   const dateRange = useMemo(() => {
     if (!trip?.startDate || !trip?.endDate) return "";
-    return `${trip.startDate} ${t("common.to")} ${trip.endDate}`;
-  }, [trip, t]);
+    return `${formatTripDate(trip.startDate, locale)} ${t("common.to")} ${formatTripDate(trip.endDate, locale)}`;
+  }, [trip, t, locale]);
 
   const showGeneratingGame = useMemo(() => {
     if (trip?.tripStatus === "FAILED") return false;
@@ -487,6 +559,22 @@ export default function TripResultPage() {
         <Link to="/" className="btn-secondary">
           {t("app.planAnotherTrip")}
         </Link>
+        {trip ? (
+          <button
+            type="button"
+            className="btn-secondary"
+            onClick={() => {
+              try {
+                sessionStorage.setItem("tripPlanner.prefill", JSON.stringify(trip));
+              } catch {
+                // ignore storage failures (private mode / quota)
+              }
+              navigate("/", { state: { prefill: trip } });
+            }}
+          >
+            {t("tripResult.editTripDetails")}
+          </button>
+        ) : null}
         <button
           type="button"
           onClick={onRegenerate}

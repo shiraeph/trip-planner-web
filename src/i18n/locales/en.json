@@ -78,8 +78,12 @@
     "title": "Trip details",
     "subtitle": "Where & when",
     "destination": "Destination",
-    "destinationHint": "City or area (e.g. Athens, Rome, Tokyo)",
-    "destinationPlaceholder": "Athens",
+    "city": "City (optional)",
+    "cityHint": "If you want, enter a city (e.g. Athens, Rome, Tokyo).",
+    "cityPlaceholder": "Athens",
+    "country": "Country (optional)",
+    "countryHint": "If you prefer, enter only a country (e.g. Greece, Italy).",
+    "countryPlaceholder": "Greece",
     "travelStyle": "Travel style",
     "startDate": "Start date",
     "endDate": "End date",
@@ -89,10 +93,13 @@
     "styles": {
       "relaxed": "Relaxed",
       "relaxedHint": "Less packed. More freedom.",
+      "relaxedMoreInfo": "A calmer plan with more flexibility, longer breaks, and fewer must-dos per day.",
       "balanced": "Balanced",
       "balancedHint": "Balanced pace with flexibility.",
+      "balancedMoreInfo": "A well-paced plan with highlights + downtime. A great default for most trips.",
       "intense": "Intense",
-      "intenseHint": "More highlights per day."
+      "intenseHint": "More highlights per day.",
+      "intenseMoreInfo": "A packed schedule with more attractions each day and less idle time."
     },
     "budgetLevels": {
       "low": "Low",
@@ -101,7 +108,8 @@
       "mediumHint": "Good mix of paid + local experiences.",
       "high": "High",
       "highHint": "Better restaurants & premium experiences."
-    }
+    },
+    "budgetSelected": "Selected: {{amount}}"
   },
   "groupDetails": {
     "title": "Who is traveling?",
@@ -142,14 +150,30 @@
       "shopping": "Shopping",
       "nature": "Nature",
       "nightlife": "Nightlife",
-      "beaches": "Beaches"
+      "beaches": "Beaches",
+      "art": "Art",
+      "localMarkets": "Local markets",
+      "coffee": "Coffee",
+      "photography": "Photography",
+      "music": "Music",
+      "sports": "Sports",
+      "hiking": "Hiking",
+      "wellness": "Wellness",
+      "technology": "Technology",
+      "dayTrips": "Day trips"
     },
     "constraintOptions": {
       "noLongWalks": "No long walks",
       "kidFriendly": "Kid-friendly",
       "vegetarianFriendly": "Vegetarian-friendly",
+      "glutenFreeFriendly": "Gluten-free friendly",
+      "wheelchairAccessible": "Wheelchair accessible",
       "earlyNights": "Early nights",
-      "avoidMuseums": "Avoid museums"
+      "lateStarts": "Late starts",
+      "avoidMuseums": "Avoid museums",
+      "avoidNightlife": "Avoid nightlife",
+      "avoidCrowds": "Avoid crowds",
+      "lowBudget": "Low budget"
     }
   },
   "optionalDetails": {
@@ -189,6 +213,11 @@
     "tripId": "Trip ID",
     "status": "Status",
     "group": "Group",
+    "editTripDetails": "Edit trip details",
+    "openingHours": "Opening Hours",
+    "price": "Price",
+    "avgPricePerDish": "Average price per dish",
+    "openInGoogleMaps": "Open in Google Maps",
     "regenerate": "Regenerate",
     "regenerating": "Regenerating…",
     "thinking": "Thinking… your trip will be ready in about a minute.",
@@ -211,6 +240,8 @@
   "waitingGame": {
     "playWhileWaiting": "Play while we build your itinerary",
     "controlsHint": "Tap or press Space to fly · avoid clouds and birds",
+    "bestYour": "Your best",
+    "bestGlobal": "Global best",
     "tapToStart": "Tap or press Space to take off",
     "tapToRetry": "Tap to try again",
     "gameOver": "Bumpy landing!",

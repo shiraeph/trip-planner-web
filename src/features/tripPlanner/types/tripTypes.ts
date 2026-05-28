@@ -102,6 +102,14 @@ export type TripPlanResponse = {
 
   travelStyle: TravelStyle | null;
   budgetLevel: BudgetLevel | null;
+  interests?: string[] | null;
+  constraints?: string[] | null;
+  hotelName?: string | null;
+  hotelAddressOrArea?: string | null;
+  includeDirections?: boolean | null;
+  /** Matches backend enum names (note PUBLIC_TRANPORT spelling). */
+  transportPreferences?: "WALKING" | "PUBLIC_TRANPORT" | "TAXI" | "CAR" | "MIXED" | null;
+  freeText?: string | null;
 
   itinerary?: Itinerary | null;
   displayLanguage?: DisplayLanguage | null;

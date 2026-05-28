@@ -198,3 +198,39 @@ export async function pollTripUntilDone(
         await new Promise((r) => setTimeout(r, intervalMs));
     }
 }
+
+// ---- Waiting game scores ----
+export type GameBestScoresResponse = { myBest: number | null; globalBest: number | null };
+
+export async function getGameBestScores(): Promise<GameBestScoresResponse> {
+    const res = await fetch(apiUrl("/api/game/scores/best"), {
+        method: "GET",
+        headers: apiHeaders(),
+    });
+    const body = await parseJsonOrText(res);
+    if (!res.ok) {
+        throw {
+            status: res.status,
+            message: buildErrorMessage(res, body),
+            raw: body,
+        } as ApiError;
+    }
+    return (body ?? { myBest: null, globalBest: null }) as GameBestScoresResponse;
+}
+
+export async function submitGameScore(score: number): Promise<GameBestScoresResponse> {
+    const res = await fetch(apiUrl("/api/game/scores/submit"), {
+        method: "POST",
+        headers: apiHeaders(true),
+        body: JSON.stringify({ score }),
+    });
+    const body = await parseJsonOrText(res);
+    if (!res.ok) {
+        throw {
+            status: res.status,
+            message: buildErrorMessage(res, body),
+            raw: body,
+        } as ApiError;
+    }
+    return (body ?? { myBest: null, globalBest: null }) as GameBestScoresResponse;
+}

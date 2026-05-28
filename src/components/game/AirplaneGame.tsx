@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 type Obstacle = { x: number; w: number; h: number; kind: "cloud" | "bird" };
@@ -176,9 +176,16 @@ function rectsOverlap(
 type Props = {
   active?: boolean;
   className?: string;
+  onGameOver?: (score: number) => void;
+  onScoreChange?: (score: number) => void;
 };
 
-export default function AirplaneGame({ active = true, className = "" }: Props) {
+export default function AirplaneGame({
+  active = true,
+  className = "",
+  onGameOver,
+  onScoreChange,
+}: Props) {
   const { t, i18n } = useTranslation();
   const isRtl = i18n.language?.startsWith("he");
   const containerRef = useRef<HTMLDivElement>(null);
@@ -187,6 +194,11 @@ export default function AirplaneGame({ active = true, className = "" }: Props) {
   const rafRef = useRef<number>(0);
   const scrollRef = useRef(0);
   const sizeRef = useRef({ w: 360, h: 160 });
+  const [ui, setUi] = useState<{ started: boolean; gameOver: boolean; score: number }>({
+    started: false,
+    gameOver: false,
+    score: 0,
+  });
 
   const jump = useCallback(() => {
     const g = gameRef.current;
@@ -272,6 +284,11 @@ export default function AirplaneGame({ active = true, className = "" }: Props) {
 
         g.planeVy += GRAVITY;
         g.planeY += g.planeVy;
+        // Constrain within the container (top boundary + ground boundary).
+        if (g.planeY < 0) {
+          g.planeY = 0;
+          if (g.planeVy < 0) g.planeVy = 0;
+        }
         const floor = g.groundY - PLANE_H;
         if (g.planeY >= floor) {
           g.planeY = floor;
@@ -285,6 +302,7 @@ export default function AirplaneGame({ active = true, className = "" }: Props) {
           const oy = g.groundY - o.h;
           if (rectsOverlap(px, py, PLANE_W, PLANE_H, o.x, oy, o.w, o.h)) {
             g.gameOver = true;
+            onGameOver?.(Math.floor(g.score / 6));
             break;
           }
         }
@@ -335,6 +353,16 @@ export default function AirplaneGame({ active = true, className = "" }: Props) {
         ctx.fillText(t("waitingGame.tapToRetry"), w / 2, h / 2 + 14);
         ctx.textAlign = "start";
       }
+
+      // Keep a small React mirror state for DOM overlays (start screen).
+      const nextScore = Math.floor(g.score / 6);
+      onScoreChange?.(nextScore);
+      setUi((prev) => {
+        if (prev.started === g.started && prev.gameOver === g.gameOver && prev.score === nextScore) {
+          return prev;
+        }
+        return { started: g.started, gameOver: g.gameOver, score: nextScore };
+      });
     };
 
     rafRef.current = requestAnimationFrame(tick);
@@ -355,7 +383,7 @@ export default function AirplaneGame({ active = true, className = "" }: Props) {
     <div
       ref={containerRef}
       dir={isRtl ? "rtl" : "ltr"}
-      className={`w-full select-none touch-none ${className}`}
+      className={`relative w-full select-none touch-none ${className}`}
       style={{ touchAction: "none" }}
       onPointerDown={onPointer}
       role="application"
@@ -365,6 +393,23 @@ export default function AirplaneGame({ active = true, className = "" }: Props) {
         ref={canvasRef}
         className="mx-auto block w-full cursor-pointer rounded-2xl ring-1 ring-brand-200/80"
       />
+      {!ui.started ? (
+        <button
+          type="button"
+          onPointerDown={onPointer}
+          className="absolute inset-0 grid place-items-center rounded-2xl bg-slate-900/35 text-white backdrop-blur-[1px]"
+          aria-label={t("waitingGame.tapToStart")}
+        >
+          <div className="rounded-2xl bg-white/10 px-5 py-4 ring-1 ring-white/30">
+            <div className="text-base font-extrabold tracking-tight">
+              {t("waitingGame.tapToStart")}
+            </div>
+            <div className="mt-1 text-xs text-white/90">
+              {t("waitingGame.controlsHint")}
+            </div>
+          </div>
+        </button>
+      ) : null}
     </div>
   );
 }

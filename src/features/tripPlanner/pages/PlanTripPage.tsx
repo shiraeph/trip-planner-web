@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useMemo, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import TripForm from "../components/TripForm";
 import TripGeneratingGame from "../../../components/game/TripGeneratingGame";
@@ -11,6 +11,21 @@ export default function PlanTripPage() {
   const [statusText, setStatusText] = useState<string>("");
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const prefill = useMemo(() => {
+    const fromState = (location.state as any)?.prefill as TripPlanResponse | undefined;
+    if (fromState) return fromState;
+    try {
+      const raw = sessionStorage.getItem("tripPlanner.prefill");
+      if (!raw) return undefined;
+      const parsed = JSON.parse(raw) as TripPlanResponse;
+      sessionStorage.removeItem("tripPlanner.prefill");
+      return parsed;
+    } catch {
+      return undefined;
+    }
+  }, [location.state]);
 
   const handleResult = (trip: TripPlanResponse) => {
     if (trip.id) navigate(`/trip/${trip.id}`);
@@ -37,7 +52,7 @@ export default function PlanTripPage() {
         </p>
       </section>
 
-      <TripForm onResult={handleResult} onStatus={handleStatus} />
+      <TripForm onResult={handleResult} onStatus={handleStatus} prefill={prefill} />
 
       {isGenerating ? (
         <TripGeneratingGame

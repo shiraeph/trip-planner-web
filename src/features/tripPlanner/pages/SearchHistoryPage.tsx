@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { getMyTrips } from "../api/tripApi";
 import type { TripPlanResponse } from "../types/tripTypes";
 import Page from "../../../app/layout/Page";
+import { formatTripDate } from "../lib/dateFormat";
 
 function StatusPill({ status }: { status: string }) {
   const { t } = useTranslation();
@@ -27,11 +28,23 @@ function StatusPill({ status }: { status: string }) {
 }
 
 export default function SearchHistoryPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [items, setItems] = useState<TripPlanResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  const locale = useMemo(
+    () => (i18n.language?.startsWith("he") ? "he-IL" : "en-US"),
+    [i18n.language]
+  );
+  const isHebrew = i18n.language?.startsWith("he");
+  const rangeArrow = isHebrew ? "←" : "→";
+
+  const visibleItems = useMemo(
+    () => (items ?? []).filter((x) => x?.tripStatus === "READY"),
+    [items]
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -77,7 +90,7 @@ export default function SearchHistoryPage() {
         >
           {error}
         </div>
-      ) : items.length === 0 ? (
+      ) : visibleItems.length === 0 ? (
         <div className="card grid place-items-center px-4 py-12 text-center">
           <div className="grid h-14 w-14 place-items-center rounded-2xl bg-slate-100">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -97,7 +110,7 @@ export default function SearchHistoryPage() {
         </div>
       ) : (
         <ul className="space-y-2.5">
-          {items.map((item) => (
+          {visibleItems.map((item) => (
             <li key={item.id}>
               <button
                 type="button"
@@ -113,7 +126,8 @@ export default function SearchHistoryPage() {
                 <div className="mt-1.5 flex flex-wrap items-center gap-2 text-xs text-slate-500">
                   {item.startDate && item.endDate ? (
                     <span>
-                      {item.startDate} → {item.endDate}
+                      {formatTripDate(item.startDate, locale)} {rangeArrow}{" "}
+                      {formatTripDate(item.endDate, locale)}
                     </span>
                   ) : null}
                   <span className="ms-auto font-medium text-brand-700 group-hover:underline">

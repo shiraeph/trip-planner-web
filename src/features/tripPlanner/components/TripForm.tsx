@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type {
   BudgetLevel,
@@ -15,7 +15,7 @@ import { planTrip } from "../api/tripApi";
 type Props = {
   onResult: (trip: TripPlanResponse) => void;
   onStatus?: (statusText: string) => void;
-  prefill?: SearchHistoryResponse | null;
+  prefill?: SearchHistoryResponse | TripPlanResponse | null;
 };
 
 type TransportPreference = "WALKING" | "PUBLIC_TRANSPORT" | "TAXI" | "CAR" | "MIXED";
@@ -29,21 +29,43 @@ const INTEREST_KEYS = [
   "nature",
   "nightlife",
   "beaches",
+  "art",
+  "localMarkets",
+  "coffee",
+  "photography",
+  "music",
+  "sports",
+  "hiking",
+  "wellness",
+  "technology",
+  "dayTrips",
 ] as const;
 const CONSTRAINT_KEYS = [
   "no long walks",
   "kid-friendly",
   "vegetarian friendly",
+  "gluten-free friendly",
+  "wheelchair accessible",
   "early nights",
+  "late starts",
   "avoid museums",
+  "avoid nightlife",
+  "avoid crowds",
+  "low budget",
 ] as const;
 
 const CONSTRAINT_TRANSLATION_KEY: Record<(typeof CONSTRAINT_KEYS)[number], string> = {
   "no long walks": "noLongWalks",
   "kid-friendly": "kidFriendly",
   "vegetarian friendly": "vegetarianFriendly",
+  "gluten-free friendly": "glutenFreeFriendly",
+  "wheelchair accessible": "wheelchairAccessible",
   "early nights": "earlyNights",
+  "late starts": "lateStarts",
   "avoid museums": "avoidMuseums",
+  "avoid nightlife": "avoidNightlife",
+  "avoid crowds": "avoidCrowds",
+  "low budget": "lowBudget",
 };
 
 function toggle(list: string[], value: string) {
@@ -130,13 +152,17 @@ export default function TripForm({ onResult, onStatus, prefill }: Props) {
   const { t, i18n } = useTranslation();
   const isHebrew = i18n.language?.startsWith("he");
 
-  const [destination, setDestination] = useState("Athens");
+  const endDateRef = useRef<HTMLInputElement | null>(null);
+
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
   const [startDate, setStartDate] = useState(() => formatAsYyyyMmDd(new Date()));
   const [endDate, setEndDate] = useState(() =>
     formatAsYyyyMmDd(addDays(new Date(), 2))
   );
   const [travelStyle, setTravelStyle] = useState<TravelStyle>("BALANCED");
   const [budgetLevel, setBudgetLevel] = useState<BudgetLevel>("MEDIUM");
+  const [budgetUsd, setBudgetUsd] = useState<number>(5000);
 
   const [composition, setComposition] = useState<GroupComposition>("COUPLE");
   const [peopleCount, setPeopleCount] = useState<number>(2);
@@ -149,19 +175,80 @@ export default function TripForm({ onResult, onStatus, prefill }: Props) {
 
   useEffect(() => {
     if (!prefill) return;
-    if (prefill.destination) setDestination(prefill.destination);
-    if (prefill.startDate) setStartDate(prefill.startDate);
-    if (prefill.endDate) setEndDate(prefill.endDate);
-    if (prefill.budgetLevel) setBudgetLevel(prefill.budgetLevel);
-    if (prefill.interests && prefill.interests.length > 0) {
-      setInterests(prefill.interests);
+    // Supports both SearchHistoryResponse and TripPlanResponse.
+    const anyPrefill = prefill as any;
+
+    if (anyPrefill.destination) {
+      const d = String(anyPrefill.destination);
+      const parts = d.split(",").map((x: string) => x.trim()).filter(Boolean);
+      if (parts.length >= 2) {
+        setCity(parts[0] ?? "");
+        setCountry(parts.slice(1).join(", "));
+      } else {
+        setCity(d);
+        setCountry("");
+      }
     }
-    if (prefill.constraints && prefill.constraints.length > 0) {
-      setConstraints(prefill.constraints);
-    } else if (prefill.constraints != null) {
+    if (anyPrefill.startDate) setStartDate(String(anyPrefill.startDate));
+    if (anyPrefill.endDate) setEndDate(String(anyPrefill.endDate));
+
+    if (anyPrefill.travelStyle) setTravelStyle(anyPrefill.travelStyle as TravelStyle);
+    if (anyPrefill.budgetLevel) {
+      const bl = anyPrefill.budgetLevel as BudgetLevel;
+      setBudgetLevel(bl);
+      setBudgetUsd(bl === "LOW" ? 2000 : bl === "HIGH" ? 25000 : 5000);
+    }
+
+    const tg = anyPrefill.tripGroup;
+    if (tg) {
+      if (tg.composition) setComposition(tg.composition as GroupComposition);
+      if (tg.peopleCount != null) setPeopleCount(Number(tg.peopleCount));
+      if (tg.genderMix) setGenderMix(tg.genderMix as GenderMix);
+      if (tg.minAge != null) setMinAge(Number(tg.minAge));
+      if (tg.maxAge != null) setMaxAge(Number(tg.maxAge));
+    }
+
+    if (Array.isArray(anyPrefill.interests) && anyPrefill.interests.length > 0) {
+      setInterests(anyPrefill.interests);
+    }
+    if (Array.isArray(anyPrefill.constraints) && anyPrefill.constraints.length > 0) {
+      setConstraints(anyPrefill.constraints);
+    } else if (anyPrefill.constraints != null) {
       setConstraints([]);
     }
+
+    if (anyPrefill.hotelName != null) setHotelName(String(anyPrefill.hotelName ?? ""));
+    if (anyPrefill.hotelAddressOrArea != null) setHotelArea(String(anyPrefill.hotelAddressOrArea ?? ""));
+    if (anyPrefill.freeText != null) setFreeText(String(anyPrefill.freeText ?? ""));
+    if (anyPrefill.includeDirections != null) setIncludeDirections(Boolean(anyPrefill.includeDirections));
+    if (anyPrefill.transportPreferences) {
+      const tp = String(anyPrefill.transportPreferences);
+      // Map backend enum to UI values.
+      if (tp === "PUBLIC_TRANPORT") setTransportPreference("PUBLIC_TRANSPORT");
+      else if (tp === "WALKING") setTransportPreference("WALKING");
+      else if (tp === "TAXI") setTransportPreference("TAXI");
+      else if (tp === "CAR") setTransportPreference("CAR");
+      else if (tp === "MIXED") setTransportPreference("MIXED");
+    }
   }, [prefill]);
+
+  useEffect(() => {
+    // Keep backend enum in sync with the slider.
+    const next: BudgetLevel = budgetUsd < 3000 ? "LOW" : budgetUsd < 12000 ? "MEDIUM" : "HIGH";
+    setBudgetLevel(next);
+  }, [budgetUsd]);
+
+  useEffect(() => {
+    // If group type implies a fixed/typical size, help the user by adjusting.
+    if (composition === "SOLO") {
+      if (peopleCount !== 1) setPeopleCount(1);
+      return;
+    }
+    // If user comes from SOLO and had 1, bump to a reasonable default.
+    if (peopleCount === 1 && (composition === "COUPLE" || composition === "FRIENDS")) {
+      setPeopleCount(2);
+    }
+  }, [composition, peopleCount]);
 
   const [hotelName, setHotelName] = useState("");
   const [hotelArea, setHotelArea] = useState("");
@@ -196,7 +283,7 @@ export default function TripForm({ onResult, onStatus, prefill }: Props) {
   const selectDir = isHebrew ? "rtl" : "ltr";
 
   function validate(): string | null {
-    if (!destination.trim()) return t("validation.destinationRequired");
+    if (!city.trim() && !country.trim()) return t("validation.destinationRequired");
     if (!startDate || !endDate) return t("validation.datesRequired");
     if (startDate > endDate) return t("validation.endDateAfterStart");
     if (peopleCount < 1) return t("validation.peopleCountMin");
@@ -215,13 +302,15 @@ export default function TripForm({ onResult, onStatus, prefill }: Props) {
     setError(null);
     onStatus?.(t("status.submitting"));
 
+    const destination = [city.trim(), country.trim()].filter(Boolean).join(", ");
+
     const displayLanguage: DisplayLanguage = isHebrew ? "HEBREW" : "ENGLISH";
 
     const transportPreferences =
       transportPreference === "PUBLIC_TRANSPORT" ? "PUBLIC_TRANPORT" : transportPreference;
 
     const req: PlanTripRequest = {
-      destination: destination.trim(),
+      destination,
       startDate,
       endDate,
       tripGroup: { composition, peopleCount, genderMix, minAge, maxAge },
@@ -265,29 +354,27 @@ export default function TripForm({ onResult, onStatus, prefill }: Props) {
         >
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Field
-              label={t("tripDetails.destination")}
-              hint={t("tripDetails.destinationHint")}
+              label={t("tripDetails.country")}
+              hint={t("tripDetails.countryHint")}
             >
               <input
                 className="input"
-                value={destination}
-                onChange={(e) => setDestination(e.target.value)}
-                placeholder={t("tripDetails.destinationPlaceholder")}
-                required
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
+                placeholder={t("tripDetails.countryPlaceholder")}
               />
             </Field>
 
-            <Field label={t("tripDetails.travelStyle")} hint={travelStyleHint}>
-              <select
+            <Field
+              label={t("tripDetails.city")}
+              hint={t("tripDetails.cityHint")}
+            >
+              <input
                 className="input"
-                dir={selectDir}
-                value={travelStyle}
-                onChange={(e) => setTravelStyle(e.target.value as TravelStyle)}
-              >
-                <option value="RELAXED">{t("tripDetails.styles.relaxed")}</option>
-                <option value="BALANCED">{t("tripDetails.styles.balanced")}</option>
-                <option value="INTENSE">{t("tripDetails.styles.intense")}</option>
-              </select>
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                placeholder={t("tripDetails.cityPlaceholder")}
+              />
             </Field>
 
             <Field label={t("tripDetails.startDate")}>
@@ -295,13 +382,18 @@ export default function TripForm({ onResult, onStatus, prefill }: Props) {
                 type="date"
                 className="input"
                 value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
+                onChange={(e) => {
+                  setStartDate(e.target.value);
+                  // Immediately guide the user to the end date field.
+                  requestAnimationFrame(() => endDateRef.current?.focus());
+                }}
                 required
               />
             </Field>
 
             <Field label={t("tripDetails.endDate")}>
               <input
+                ref={endDateRef}
                 type="date"
                 className="input"
                 value={endDate}
@@ -319,23 +411,49 @@ export default function TripForm({ onResult, onStatus, prefill }: Props) {
               </div>
             ) : null}
 
-            <Field label={t("tripDetails.budget")} hint={budgetHint}>
+            <Field
+              label={t("tripDetails.budget")}
+              hint={`${budgetHint} · ${t("tripDetails.budgetSelected", {
+                amount: new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                  maximumFractionDigits: 0,
+                }).format(budgetUsd),
+              })}`}
+            >
+              <input
+                type="range"
+                min={500}
+                max={100000}
+                step={500}
+                value={budgetUsd}
+                onChange={(e) => setBudgetUsd(Number(e.target.value))}
+                className="w-full"
+              />
+              <div className="mt-1 flex items-center justify-between text-xs text-slate-500">
+                <span>$500</span>
+                <span>$100,000</span>
+              </div>
+            </Field>
+
+            <Field label={t("tripDetails.travelStyle")} hint={travelStyleHint}>
               <select
                 className="input"
                 dir={selectDir}
-                value={budgetLevel}
-                onChange={(e) => setBudgetLevel(e.target.value as BudgetLevel)}
+                value={travelStyle}
+                onChange={(e) => setTravelStyle(e.target.value as TravelStyle)}
               >
-                <option value="LOW">
-                  {t("tripDetails.budgetLevels.low")} · $2,000
-                </option>
-                <option value="MEDIUM">
-                  {t("tripDetails.budgetLevels.medium")} · $5,000
-                </option>
-                <option value="HIGH">
-                  {t("tripDetails.budgetLevels.high")} · $5,000+
-                </option>
+                <option value="RELAXED">{t("tripDetails.styles.relaxed")}</option>
+                <option value="BALANCED">{t("tripDetails.styles.balanced")}</option>
+                <option value="INTENSE">{t("tripDetails.styles.intense")}</option>
               </select>
+              <div className="mt-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-600">
+                {travelStyle === "RELAXED"
+                  ? t("tripDetails.styles.relaxedMoreInfo")
+                  : travelStyle === "INTENSE"
+                    ? t("tripDetails.styles.intenseMoreInfo")
+                    : t("tripDetails.styles.balancedMoreInfo")}
+              </div>
             </Field>
           </div>
         </Section>
@@ -368,11 +486,12 @@ export default function TripForm({ onResult, onStatus, prefill }: Props) {
             <Field label={t("groupDetails.people")}>
               <input
                 type="number"
-                min={1}
+                min={composition === "SOLO" ? 1 : 1}
                 max={20}
                 className="input"
                 value={peopleCount}
                 onChange={(e) => setPeopleCount(Number(e.target.value))}
+                disabled={composition === "SOLO"}
               />
             </Field>
 

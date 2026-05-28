@@ -78,8 +78,12 @@
     "title": "פרטי הטיול",
     "subtitle": "איפה ומתי",
     "destination": "יעד",
-    "destinationHint": "עיר או אזור (לדוגמה אתונה, רומא, טוקיו)",
-    "destinationPlaceholder": "אתונה",
+    "city": "עיר (אופציונלי)",
+    "cityHint": "אם תרצו, הזינו עיר (לדוגמה אתונה, רומא, טוקיו).",
+    "cityPlaceholder": "אתונה",
+    "country": "מדינה (אופציונלי)",
+    "countryHint": "אפשר להזין רק מדינה (לדוגמה יוון, איטליה).",
+    "countryPlaceholder": "יוון",
     "travelStyle": "סגנון טיול",
     "startDate": "תאריך התחלה",
     "endDate": "תאריך סיום",
@@ -89,10 +93,13 @@
     "styles": {
       "relaxed": "רגוע",
       "relaxedHint": "פחות עומס. יותר חופש.",
+      "relaxedMoreInfo": "תכנית רגועה עם יותר גמישות, יותר הפסקות, ופחות “חובה” בכל יום.",
       "balanced": "מאוזן",
       "balancedHint": "קצב מאוזן עם גמישות.",
+      "balancedMoreInfo": "תכנית בקצב מאוזן עם שילוב של אטרקציות + זמן חופשי. ברירת מחדל מעולה לרוב הטיולים.",
       "intense": "אינטנסיבי",
-      "intenseHint": "יותר אטרקציות ביום."
+      "intenseHint": "יותר אטרקציות ביום.",
+      "intenseMoreInfo": "תכנית צפופה עם יותר אטרקציות בכל יום ופחות זמן פנוי."
     },
     "budgetLevels": {
       "low": "נמוך",
@@ -101,7 +108,8 @@
       "mediumHint": "תמהיל טוב של חוויות בתשלום ומקומיות.",
       "high": "גבוה",
       "highHint": "מסעדות טובות יותר וחוויות פרימיום."
-    }
+    },
+    "budgetSelected": "נבחר: {{amount}}"
   },
   "groupDetails": {
     "title": "מי נוסע?",
@@ -142,14 +150,30 @@
       "shopping": "קניות",
       "nature": "טבע",
       "nightlife": "חיי לילה",
-      "beaches": "חופים"
+      "beaches": "חופים",
+      "art": "אמנות",
+      "localMarkets": "שווקים מקומיים",
+      "coffee": "קפה",
+      "photography": "צילום",
+      "music": "מוזיקה",
+      "sports": "ספורט",
+      "hiking": "טיולים רגליים",
+      "wellness": "וולנס / ספא",
+      "technology": "טכנולוגיה",
+      "dayTrips": "טיולי יום"
     },
     "constraintOptions": {
       "noLongWalks": "ללא הליכות ארוכות",
       "kidFriendly": "ידידותי לילדים",
       "vegetarianFriendly": "ידידותי לצמחונים",
+      "glutenFreeFriendly": "ידידותי ללא גלוטן",
+      "wheelchairAccessible": "נגיש לכיסא גלגלים",
       "earlyNights": "לילות מוקדמים",
-      "avoidMuseums": "להימנע ממוזיאונים"
+      "lateStarts": "התחלה מאוחרת",
+      "avoidMuseums": "להימנע ממוזיאונים",
+      "avoidNightlife": "להימנע מחיי לילה",
+      "avoidCrowds": "להימנע מהמון",
+      "lowBudget": "תקציב נמוך"
     }
   },
   "optionalDetails": {
@@ -189,6 +213,11 @@
     "tripId": "מזהה טיול",
     "status": "סטטוס",
     "group": "קבוצה",
+    "editTripDetails": "עריכת פרטי הטיול",
+    "openingHours": "שעות פתיחה",
+    "price": "מחיר",
+    "avgPricePerDish": "מחיר ממוצע למנה",
+    "openInGoogleMaps": "פתיחה ב-Google Maps",
     "regenerate": "יצירה מחדש",
     "regenerating": "יוצר מחדש…",
     "thinking": "חושב… הטיול שלך יהיה מוכן בעוד כדקה.",
@@ -211,6 +240,8 @@
   "waitingGame": {
     "playWhileWaiting": "שחקו בזמן שאנחנו בונים את המסלול",
     "controlsHint": "הקשה או רווח כדי לעוף · התחמקו מעננים וציפורים",
+    "bestYour": "השיא שלך",
+    "bestGlobal": "השיא הכללי",
     "tapToStart": "הקשה או רווח כדי להמריא",
     "tapToRetry": "הקשה לניסיון נוסף",
     "gameOver": "נחיתה קשה!",
