@@ -142,7 +142,11 @@ export type ItineraryItem = {
   type: ItineraryItemType;
   name: string;
   location?: Location | null;
+  /** Detailed description only (no opening hours or price). */
   notes?: string | null;
+  openingHours?: string | null;
+  price?: string | null;
+  averagePricePerDish?: string | null;
   transit?: TransitInfo | null;
 };
 

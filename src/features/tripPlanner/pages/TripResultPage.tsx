@@ -11,8 +11,9 @@ import type { Itinerary, TimeBlock, TripPlanResponse } from "../types/tripTypes"
 import Page from "../../../app/layout/Page";
 import TripGeneratingGame from "../../../components/game/TripGeneratingGame";
 import { formatTripDate } from "../lib/dateFormat";
-import { parseItineraryNotes } from "../lib/itineraryNotes";
 import { buildGoogleMapsSearchUrl } from "../lib/googleMapsUrl";
+import { resolveItemDetails } from "../lib/itemDetails";
+import type { ItineraryItem } from "../types/tripTypes";
 
 function cn(...xs: Array<string | false | undefined | null>) {
   return xs.filter(Boolean).join(" ");
@@ -93,24 +94,13 @@ function ItemCard({
   keepChecked,
   onToggleKeep,
 }: {
-  item: {
-    type: string;
-    name: string;
-    notes?: string | null;
-    location?: { name: string } | null;
-    transit?: {
-      from: string;
-      mode: string;
-      estimatedMinutes?: number | null;
-      directions?: string | null;
-    } | null;
-  };
+  item: ItineraryItem;
   tripDestination?: string | null;
   keepChecked?: boolean;
   onToggleKeep?: () => void;
 }) {
   const { t } = useTranslation();
-  const parsed = useMemo(() => parseItineraryNotes(item.notes), [item.notes]);
+  const details = useMemo(() => resolveItemDetails(item), [item]);
   const mapsUrl = useMemo(() => {
     if (item.type === "TRANSIT" || !item.name?.trim()) return null;
     return buildGoogleMapsSearchUrl(
@@ -145,46 +135,36 @@ function ItemCard({
         ) : null}
       </div>
 
-      {parsed.description ? (
-        <p className="mt-1.5 block whitespace-pre-line text-sm leading-relaxed text-slate-600">
-          {parsed.description}
-        </p>
-      ) : null}
+      <div className="mt-1.5 flex flex-col gap-4">
+        {details.description ? (
+          <p className="block whitespace-pre-line text-sm leading-relaxed text-slate-600">
+            {details.description}
+          </p>
+        ) : null}
 
-      {parsed.openingHours ? (
-        <p
-          className={`block text-xs leading-relaxed text-slate-600 ${
-            parsed.description ? "mt-4" : "mt-1.5"
-          }`}
-        >
-          <span className="font-semibold text-slate-700">
-            {t("tripResult.openingHours")}:
-          </span>{" "}
-          <span className="text-slate-500">{parsed.openingHours}</span>
-        </p>
-      ) : null}
+        {details.openingHours ? (
+          <p className="block text-xs leading-relaxed text-slate-600">
+            <span className="font-semibold text-slate-700">
+              {t("tripResult.openingHours")}:
+            </span>{" "}
+            <span className="text-slate-500">{details.openingHours}</span>
+          </p>
+        ) : null}
 
-      {parsed.avgPricePerDish ? (
-        <p
-          className={`block text-xs leading-relaxed text-slate-600 ${
-            parsed.openingHours || parsed.description ? "mt-4" : "mt-1.5"
-          }`}
-        >
-          <span className="font-semibold text-slate-700">
-            {t("tripResult.avgPricePerDish")}:
-          </span>{" "}
-          <span className="text-slate-500">{parsed.avgPricePerDish}</span>
-        </p>
-      ) : parsed.price ? (
-        <p
-          className={`block text-xs leading-relaxed text-slate-600 ${
-            parsed.openingHours || parsed.description ? "mt-4" : "mt-1.5"
-          }`}
-        >
-          <span className="font-semibold text-slate-700">{t("tripResult.price")}:</span>{" "}
-          <span className="text-slate-500">{parsed.price}</span>
-        </p>
-      ) : null}
+        {details.avgPricePerDish ? (
+          <p className="block text-xs leading-relaxed text-slate-600">
+            <span className="font-semibold text-slate-700">
+              {t("tripResult.avgPricePerDish")}:
+            </span>{" "}
+            <span className="text-slate-500">{details.avgPricePerDish}</span>
+          </p>
+        ) : details.price ? (
+          <p className="block text-xs leading-relaxed text-slate-600">
+            <span className="font-semibold text-slate-700">{t("tripResult.price")}:</span>{" "}
+            <span className="text-slate-500">{details.price}</span>
+          </p>
+        ) : null}
+      </div>
 
       {mapsUrl ? (
         <a
