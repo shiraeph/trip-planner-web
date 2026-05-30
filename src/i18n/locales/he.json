@@ -109,6 +109,7 @@
       "high": "גבוה",
       "highHint": "מסעדות טובות יותר וחוויות פרימיום."
     },
+    "budgetSelectedLabel": "התקציב לטיול",
     "budgetSelected": "נבחר: {{amount}}"
   },
   "groupDetails": {

@@ -109,6 +109,7 @@
       "high": "High",
       "highHint": "Better restaurants & premium experiences."
     },
+    "budgetSelectedLabel": "Your trip budget",
     "budgetSelected": "Selected: {{amount}}"
   },
   "groupDetails": {

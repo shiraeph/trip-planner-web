@@ -300,6 +300,24 @@ export default function TripForm({ onResult, onStatus, prefill }: Props) {
     return t("tripDetails.budgetLevels.mediumHint");
   }, [budgetLevel, t]);
 
+  const budgetLocale = isHebrew ? "he-IL" : "en-US";
+
+  const formatBudgetUsd = useMemo(
+    () => (amount: number) =>
+      new Intl.NumberFormat(budgetLocale, {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0,
+      }).format(amount),
+    [budgetLocale]
+  );
+
+  const budgetLevelLabel = useMemo(() => {
+    if (budgetLevel === "LOW") return t("tripDetails.budgetLevels.low");
+    if (budgetLevel === "HIGH") return t("tripDetails.budgetLevels.high");
+    return t("tripDetails.budgetLevels.medium");
+  }, [budgetLevel, t]);
+
   const tripDayCount = useMemo(() => {
     if (!startDate || !endDate || startDate > endDate) return 0;
     const start = new Date(`${startDate}T12:00:00`);
@@ -439,28 +457,40 @@ export default function TripForm({ onResult, onStatus, prefill }: Props) {
               </div>
             ) : null}
 
-            <Field
-              label={t("tripDetails.budget")}
-              hint={`${budgetHint} · ${t("tripDetails.budgetSelected", {
-                amount: new Intl.NumberFormat("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                  maximumFractionDigits: 0,
-                }).format(budgetUsd),
-              })}`}
-            >
-              <input
-                type="range"
-                min={500}
-                max={100000}
-                step={500}
-                value={budgetUsd}
-                onChange={(e) => setBudgetUsd(Number(e.target.value))}
-                className="w-full"
-              />
-              <div className="mt-1 flex items-center justify-between text-xs text-slate-500">
-                <span>$500</span>
-                <span>$100,000</span>
+            <Field label={t("tripDetails.budget")} hint={budgetHint}>
+              <div className="rounded-xl border border-brand-200 bg-brand-50/70 px-4 py-3 ring-1 ring-brand-100">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div>
+                    <p className="text-xs font-medium text-slate-500">
+                      {t("tripDetails.budgetSelectedLabel")}
+                    </p>
+                    <p className="font-display text-2xl font-bold tracking-tight text-brand-900">
+                      {formatBudgetUsd(budgetUsd)}
+                    </p>
+                  </div>
+                  <span className="rounded-full bg-brand-600 px-3 py-1 text-sm font-semibold text-white">
+                    {budgetLevelLabel}
+                  </span>
+                </div>
+              </div>
+              <div className="mt-3" dir="ltr">
+                <input
+                  type="range"
+                  min={500}
+                  max={100000}
+                  step={500}
+                  value={budgetUsd}
+                  onChange={(e) => setBudgetUsd(Number(e.target.value))}
+                  className="w-full accent-brand-600"
+                  aria-valuemin={500}
+                  aria-valuemax={100000}
+                  aria-valuenow={budgetUsd}
+                  aria-valuetext={formatBudgetUsd(budgetUsd)}
+                />
+                <div className="mt-1 flex items-center justify-between text-xs font-medium text-slate-500">
+                  <span>{formatBudgetUsd(500)}</span>
+                  <span>{formatBudgetUsd(100000)}</span>
+                </div>
               </div>
             </Field>
 
