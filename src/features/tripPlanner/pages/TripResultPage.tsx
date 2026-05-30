@@ -13,6 +13,7 @@ import TripGeneratingGame from "../../../components/game/TripGeneratingGame";
 import { formatTripDate } from "../lib/dateFormat";
 import { buildGoogleMapsSearchUrl } from "../lib/googleMapsUrl";
 import { resolveItemDetails } from "../lib/itemDetails";
+import { inclusiveDayCount, isLongTrip } from "../lib/generationProgress";
 import type { ItineraryItem } from "../types/tripTypes";
 
 function cn(...xs: Array<string | false | undefined | null>) {
@@ -204,11 +205,13 @@ function DayTabs({
   locked,
   onToggleItem,
   onReorderBlocks,
+  readOnly = false,
 }: {
   trip: TripPlanResponse;
   locked: Record<string, boolean>;
   onToggleItem: (dayIndex: number, timeBlock: TimeBlock, itemIndex: number) => void;
   onReorderBlocks: (dayIndex: number, fromIndex: number, toIndex: number) => void;
+  readOnly?: boolean;
 }) {
   const { t } = useTranslation();
   const days = trip.itinerary?.dayPlans ?? [];
@@ -261,13 +264,15 @@ function DayTabs({
           {day.blocks.map((block, i) => (
             <div
               key={`${block.timeBlock}-${i}`}
-              draggable
-              onDragStart={() => setDragBlockIdx(i)}
+              draggable={!readOnly}
+              onDragStart={() => !readOnly && setDragBlockIdx(i)}
               onDragOver={(e) => {
+                if (readOnly) return;
                 e.preventDefault();
                 e.dataTransfer.dropEffect = "move";
               }}
               onDrop={(e) => {
+                if (readOnly) return;
                 e.preventDefault();
                 if (dragBlockIdx === null || dragBlockIdx === i) return;
                 onReorderBlocks(active, dragBlockIdx, i);
@@ -276,16 +281,20 @@ function DayTabs({
               onDragEnd={() => setDragBlockIdx(null)}
               className={cn(
                 "rounded-xl border border-transparent p-2 transition",
-                dragBlockIdx === i
-                  ? "border-brand-300 bg-brand-50/50 opacity-90"
-                  : "hover:border-slate-200 hover:bg-slate-50/60"
+                readOnly
+                  ? ""
+                  : dragBlockIdx === i
+                    ? "border-brand-300 bg-brand-50/50 opacity-90"
+                    : "hover:border-slate-200 hover:bg-slate-50/60"
               )}
             >
               <div className="flex items-center justify-between gap-3">
                 <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                  <span className="cursor-grab select-none text-slate-400" aria-hidden>
-                    ⋮⋮
-                  </span>
+                  {!readOnly ? (
+                    <span className="cursor-grab select-none text-slate-400" aria-hidden>
+                      ⋮⋮
+                    </span>
+                  ) : null}
                   <span>{t(`timeBlocks.${block.timeBlock as TimeBlock}`)}</span>
                 </div>
               </div>
@@ -299,8 +308,8 @@ function DayTabs({
                       key={j}
                       item={item}
                       tripDestination={trip.destination}
-                      keepChecked={!!locked[lockKey]}
-                      onToggleKeep={() => onToggleItem(active, tb, j)}
+                      keepChecked={readOnly ? undefined : !!locked[lockKey]}
+                      onToggleKeep={readOnly ? undefined : () => onToggleItem(active, tb, j)}
                     />
                   );
                 })}
@@ -351,14 +360,47 @@ export default function TripResultPage() {
     return loading && !trip;
   }, [loading, trip, regenLoading]);
 
+  const tripDayCount = useMemo(() => {
+    if (!trip?.startDate || !trip?.endDate) return 0;
+    return inclusiveDayCount(trip.startDate, trip.endDate);
+  }, [trip?.startDate, trip?.endDate]);
+
+  const isTripGenerating =
+    trip?.tripStatus === "GENERATING" || regenLoading || (loading && !trip);
+
+  const generatingTitle = useMemo(() => {
+    if (loading && !trip) return t("tripResult.thinking");
+    if (regenLoading) return t("tripResult.regenerating");
+    if (trip?.destination && tripDayCount > 0) {
+      return t("generationProgress.buildingTrip", {
+        destination: trip.destination,
+        days: tripDayCount,
+      });
+    }
+    return t("tripResult.stillGenerating");
+  }, [loading, trip, regenLoading, tripDayCount, t]);
+
+  const generatingSubtitle = useMemo(() => {
+    if (tripDayCount > 0 && isLongTrip(tripDayCount)) {
+      return t("generationProgress.longTripWait");
+    }
+    return t("generationProgress.autoUpdate");
+  }, [tripDayCount, t]);
+
   const syncDraftFromTrip = useCallback((p: TripPlanResponse) => {
-    if (p.tripStatus === "READY" && p.itinerary) {
+    if (p.tripStatus === "READY" && p.itinerary?.dayPlans?.length) {
       setDraftItinerary(structuredClone(p.itinerary));
       setItineraryDirty(false);
-    } else {
+    } else if (p.tripStatus === "READY") {
       setDraftItinerary(null);
+      setItineraryDirty(false);
     }
+    // During GENERATING, poll uses view=progress (no itinerary payload) — keep trip metadata in sync only.
   }, []);
+
+  const partialDayCount = draftItinerary?.dayPlans?.length ?? 0;
+  const showPartialItinerary =
+    isTripGenerating && partialDayCount > 0 && trip?.tripStatus === "GENERATING";
 
   useEffect(() => {
     if (!id) return;
@@ -558,7 +600,7 @@ export default function TripResultPage() {
         <button
           type="button"
           onClick={onRegenerate}
-          disabled={regenLoading}
+          disabled={regenLoading || isTripGenerating}
           className="btn-primary"
         >
           {regenLoading ? t("tripResult.regenerating") : t("tripResult.regenerate")}
@@ -566,7 +608,7 @@ export default function TripResultPage() {
         <button
           type="button"
           onClick={onSaveItinerary}
-          disabled={saveLoading || !itineraryDirty || !draftItinerary}
+          disabled={saveLoading || !itineraryDirty || !draftItinerary || isTripGenerating}
           className={cn(
             "btn",
             saveLoading || !itineraryDirty || !draftItinerary
@@ -602,15 +644,31 @@ export default function TripResultPage() {
 
       {showGeneratingGame ? (
         <TripGeneratingGame
-          title={
-            loading
-              ? t("tripResult.thinking")
-              : regenLoading
-                ? t("tripResult.regenerating")
-                : t("tripResult.stillGenerating")
-          }
-          subtitle={t("tripResult.stillGenerating")}
+          title={generatingTitle}
+          subtitle={generatingSubtitle}
+          tripDayCount={tripDayCount}
+          generationProgress={trip?.generationProgress}
+          progressResetKey={trip?.id ?? id ?? ""}
+          showProgress
         />
+      ) : null}
+
+      {showPartialItinerary && trip && draftItinerary ? (
+        <div className="mt-6">
+          <p className="mb-3 rounded-xl border border-brand-200 bg-brand-50/60 px-4 py-2.5 text-sm text-brand-800">
+            {t("generationProgress.partialItinerary", {
+              completed: partialDayCount,
+              total: tripDayCount,
+            })}
+          </p>
+          <DayTabs
+            trip={{ ...trip, itinerary: draftItinerary }}
+            locked={{}}
+            onToggleItem={() => {}}
+            onReorderBlocks={() => {}}
+            readOnly
+          />
+        </div>
       ) : null}
 
       {trip?.tripStatus === "FAILED" ? (

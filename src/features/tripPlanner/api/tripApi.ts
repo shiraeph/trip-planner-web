@@ -112,10 +112,19 @@ export async function updateTripItinerary(
     return body as TripPlanResponse;
 }
 
-export async function getTrip(id: string, language?: "en" | "he"): Promise<TripPlanResponse> {
+export async function getTrip(
+    id: string,
+    language?: "en" | "he",
+    options?: { view?: "progress"; signal?: AbortSignal }
+): Promise<TripPlanResponse> {
     const url = new URL(apiUrl(`/api/trips/${encodeURIComponent(id)}`));
     if (language) url.searchParams.set("language", language);
-    const res = await fetch(url.toString(), { method: "GET", headers: apiHeaders() });
+    if (options?.view === "progress") url.searchParams.set("view", "progress");
+    const res = await fetch(url.toString(), {
+        method: "GET",
+        headers: apiHeaders(),
+        signal: options?.signal,
+    });
 
     const body = await parseJsonOrText(res);
 
@@ -178,13 +187,29 @@ export async function pollTripUntilDone(
     const language = options.language;
 
     const startedAt = Date.now();
+    let inFlight: AbortController | null = null;
 
     while (true) {
-        const trip = await getTrip(id, language);
+        inFlight?.abort();
+        inFlight = new AbortController();
+
+        let trip: TripPlanResponse;
+        try {
+            trip = await getTrip(id, language, {
+                view: "progress",
+                signal: inFlight.signal,
+            });
+        } catch (e: unknown) {
+            if (e instanceof DOMException && e.name === "AbortError") {
+                continue;
+            }
+            throw e;
+        }
+
         options.onUpdate?.(trip);
 
         if (trip.tripStatus === "READY" || trip.tripStatus === "FAILED") {
-            return trip;
+            return getTrip(id, language);
         }
 
         if (Date.now() - startedAt > timeoutMs) {

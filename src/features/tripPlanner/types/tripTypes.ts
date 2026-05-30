@@ -41,6 +41,20 @@ export type ItineraryItemType =
 
 export type DisplayLanguage = "ENGLISH" | "HEBREW";
 
+export type GenerationStage =
+  | "ANALYZING"
+  | "PLANNING_DAYS"
+  | "TRANSLATING"
+  | "FINALIZING";
+
+export type GenerationProgress = {
+  stage: GenerationStage;
+  chunksCompleted: number;
+  totalChunks: number;
+  daysCompleted: number;
+  totalDays: number;
+};
+
 // ===== Request Types =====
 export type TransitInfo = {
     from: string;
@@ -116,6 +130,7 @@ export type TripPlanResponse = {
 
   tripStatus: TripStatus;
   errorMessage?: string | null;
+  generationProgress?: GenerationProgress | null;
 
   createdAt?: string | null;
   updatedAt?: string | null;

@@ -20,6 +20,9 @@ type Props = {
 
 type TransportPreference = "WALKING" | "PUBLIC_TRANSPORT" | "TAXI" | "CAR" | "MIXED";
 
+const TREKKING_KEYS = ["trekkingEasy", "trekkingModerate", "trekkingDifficult"] as const;
+type TrekkingKey = (typeof TREKKING_KEYS)[number];
+
 const INTEREST_KEYS = [
   "food",
   "history",
@@ -35,7 +38,9 @@ const INTEREST_KEYS = [
   "photography",
   "music",
   "sports",
-  "hiking",
+  "trekkingEasy",
+  "trekkingModerate",
+  "trekkingDifficult",
   "wellness",
   "technology",
   "dayTrips",
@@ -70,6 +75,29 @@ const CONSTRAINT_TRANSLATION_KEY: Record<(typeof CONSTRAINT_KEYS)[number], strin
 
 function toggle(list: string[], value: string) {
   return list.includes(value) ? list.filter((x) => x !== value) : [...list, value];
+}
+
+function isTrekkingKey(value: string): value is TrekkingKey {
+  return (TREKKING_KEYS as readonly string[]).includes(value);
+}
+
+function toggleInterest(list: string[], value: string): string[] {
+  if (isTrekkingKey(value)) {
+    if (list.includes(value)) {
+      return list.filter((x) => x !== value);
+    }
+    return [...list.filter((x) => !isTrekkingKey(x) && x !== "hiking"), value];
+  }
+  return toggle(list, value);
+}
+
+function normalizeInterests(raw: string[]): string[] {
+  const withoutLegacyHiking = raw.filter((x) => x !== "hiking");
+  const trekking = withoutLegacyHiking.filter(isTrekkingKey);
+  if (trekking.length <= 1) {
+    return withoutLegacyHiking;
+  }
+  return withoutLegacyHiking.filter((x) => !isTrekkingKey(x)).concat(trekking[0]);
 }
 
 function cn(...xs: Array<string | false | undefined | null>) {
@@ -209,7 +237,7 @@ export default function TripForm({ onResult, onStatus, prefill }: Props) {
     }
 
     if (Array.isArray(anyPrefill.interests) && anyPrefill.interests.length > 0) {
-      setInterests(anyPrefill.interests);
+      setInterests(normalizeInterests(anyPrefill.interests));
     }
     if (Array.isArray(anyPrefill.constraints) && anyPrefill.constraints.length > 0) {
       setConstraints(anyPrefill.constraints);
@@ -559,7 +587,7 @@ export default function TripForm({ onResult, onStatus, prefill }: Props) {
                   key={key}
                   active={interests.includes(key)}
                   label={t(`preferences.interestOptions.${key}`)}
-                  onClick={() => setInterests((prev) => toggle(prev, key))}
+                  onClick={() => setInterests((prev) => toggleInterest(prev, key))}
                 />
               ))}
             </div>

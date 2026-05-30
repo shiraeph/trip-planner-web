@@ -66,13 +66,13 @@
   },
   "planTrip": {
     "title": "תכנון הטיול",
-    "description": "ספרו לנו מה אתם אוהבים — ניצור עבורכם מסלול יום-יום.",
+    "description": "ספרו לנו מה אתם אוהבים — ניצור עבורכם מסלול יום-יומי.",
     "aiBadge": "מתכנן AI",
     "generating": "מייצר…",
     "generateTrip": "יצירת טיול",
     "creatingAdventure": "יוצרים את מסלול ההרפתקה שלכם…",
     "hangTight": "רגע אחד — כמעט סיימנו!",
-    "dayByDayPlan": "תקבלו תכנית יום-יום עם בוקר / צהריים / ערב."
+    "dayByDayPlan": "תקבלו תכנית יום-יומית עם בוקר / צהריים / ערב."
   },
   "tripDetails": {
     "title": "פרטי הטיול",
@@ -157,7 +157,9 @@
       "photography": "צילום",
       "music": "מוזיקה",
       "sports": "ספורט",
-      "hiking": "טיולים רגליים",
+      "trekkingEasy": "טיולים רגליים קלים",
+      "trekkingModerate": "טיולים רגליים בינוניים",
+      "trekkingDifficult": "טיולים רגליים מאתגרים",
       "wellness": "וולנס / ספא",
       "technology": "טכנולוגיה",
       "dayTrips": "טיולי יום"
@@ -231,6 +233,19 @@
     "saveItinerary": "שמירת המסלול",
     "savingItinerary": "שומר…",
     "dragBlocksHint": "גררו את בלוקי הבוקר, הצהריים או הערב כדי להחליף ביניהם. שמרו בסיום."
+  },
+  "generationProgress": {
+    "buildingTrip": "בונים את הטיול של {{days}} ימים ב{{destination}}…",
+    "analyzing": "מנתחים את היעד",
+    "findingEvents": "מחפשים אירועים ואטרקציות",
+    "buildingItinerary": "בונים מסלול יום-יומי",
+    "addingDetails": "מוסיפים המלצות ופרטים",
+    "elapsed": "זמן שחלף: {{time}}",
+    "autoUpdate": "הדף יתעדכן אוטומטית כשהטיול יהיה מוכן.",
+    "longTripWait": "טיולים ארוכים לוקחים כמה דקות — תודה על הסבלנות.",
+    "daysProgress": "{{completed}} מתוך {{total}} ימים מוכנים",
+    "chunksProgress": "חלק {{completed}} מתוך {{total}}",
+    "partialItinerary": "{{completed}} מתוך {{total}} ימים מוכנים — עוד ימים מתווספים למטה."
   },
   "timeBlocks": {
     "MORNING": "בוקר",

@@ -157,7 +157,9 @@
       "photography": "Photography",
       "music": "Music",
       "sports": "Sports",
-      "hiking": "Hiking",
+      "trekkingEasy": "Easy Hiking & Trekking",
+      "trekkingModerate": "Moderate Hiking & Trekking",
+      "trekkingDifficult": "Difficult Hiking & Trekking",
       "wellness": "Wellness",
       "technology": "Technology",
       "dayTrips": "Day trips"
@@ -231,6 +233,19 @@
     "saveItinerary": "Save itinerary",
     "savingItinerary": "Saving…",
     "dragBlocksHint": "Drag morning, afternoon, or evening blocks to swap time slots. Save when you are done."
+  },
+  "generationProgress": {
+    "buildingTrip": "Building your {{days}}-day {{destination}} trip…",
+    "analyzing": "Analyzing destination",
+    "findingEvents": "Finding events & attractions",
+    "buildingItinerary": "Building day-by-day itinerary",
+    "addingDetails": "Adding recommendations & details",
+    "elapsed": "Elapsed: {{time}}",
+    "autoUpdate": "This page updates automatically when your trip is ready.",
+    "longTripWait": "Longer trips take a few minutes — thanks for your patience.",
+    "daysProgress": "{{completed}} of {{total}} days ready",
+    "chunksProgress": "Part {{completed}} of {{total}}",
+    "partialItinerary": "{{completed}} of {{total}} days are ready — more are being added below."
   },
   "timeBlocks": {
     "MORNING": "Morning",
